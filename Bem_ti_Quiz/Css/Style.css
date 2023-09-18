@@ -1,14 +1,29 @@
 body {
     font-family: Arial, sans-serif;
-    background: rgb(253,200,45);
+    background: linear-gradient(0deg, #FFBF1C 30%, #FFEC44 52%);
     text-align: center;
     margin: 0;
+    overflow-x: auto;
+    overflow-y: auto;
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed;
+}
+
+.figureBK {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    z-index: -1;
+
 }
 
 img.increase-size {
-    width: 625px; 
+    width: 525px;
     height: auto;
-    padding-top: 8%;
+    padding-top: 15%;
     padding-left: 5%;
 }
 
@@ -18,34 +33,53 @@ img.increase-size {
     border-radius: 50px 0px 0px 50px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: 600px;
+    width: 500px;
     padding-bottom: 5pc;
     padding-top: 6pc;
     padding-left: 2pc;
     padding-right: 2pc;
 }
 
+.container-sm {
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.88);
+    width: 686px;
+    height: 528px;
+    border-radius: 25px;
+    padding: 20px;
+}
 
+input[type="email"],
 input[type="text"],
 input[type="password"] {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    border-radius: 100px;
-    background-color: #272727;
+    border-radius: 8px;
+    background: #1F222A;
     color: #ccc;
     border: none;
     outline: none;
     padding-right: 150px;
+
 }
 
 .btn-warning {
-    color: #000000;
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border-radius: 100px;
     border: 1px solid #ccc;
+    background: #FFCD1C;
+    border-radius: 36px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    color: #000000;
+    width: 235px;
+    height: 51px;
+    flex-shrink: 0;
+
 }
 
 button:hover {
@@ -59,12 +93,27 @@ a {
 
 
 label {
-    text-align: left; 
-    display: block; 
-    margin-bottom: 10px; 
+    text-align: left;
+    display: block;
+    margin-bottom: 10px;
 }
 
 
 input {
-    width: 100%; 
+    width: 100%;
+}
+
+.TextAP {
+
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #858494;
+
+
 }
