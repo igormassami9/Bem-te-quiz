@@ -117,3 +117,146 @@ input {
 
 
 }
+
+/* Home */
+
+.container-md {
+    max-width: 18%;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 5px solid #ced4da;
+    border-radius: 25px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-logout {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+}
+
+.container-lg {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-bottom: 6px solid #bec3c9;
+    border-radius: 100px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.custom-checkbox {
+    display: none;
+}
+
+.custom-checkbox+label {
+    cursor: pointer;
+    display: inline-block;
+    background-color: #67F6FF;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    margin-right: 10px;
+    border-bottom: 6px solid #bec3c9;
+}
+
+.custom-checkbox+label img {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.custom-checkbox:checked+label {
+    background-color: yellow;
+}
+
+.circle {
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+}
+
+.custom-checkbox2 {
+    display: none;
+}
+
+.custom-checkbox2+label {
+    cursor: pointer;
+    display: inline-block;
+    background-color: #67F6FF;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    margin-right: 10px;
+    border-bottom: 6px solid #bec3c9;
+}
+
+.custom-checkbox2+label img {
+    max-width: 44px;
+    max-height: 44px;
+}
+
+.custom-checkbox2:checked+label {
+    background-color: yellow;
+}
+
+
+#btnJogar {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 5px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    font-size: 40px;
+
+width: 200px;
+height: 70px;
+left: calc(50% - 209px/2 - 1.5px);
+top: 600px;
+box-shadow: 0px 8px 0px #CDCDCD;
+border-radius: 30px;
+
+}
+
+#btnJogar:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+}
+
+.Texto {
+position: absolute;
+width: 596px;
+height: 55px;
+left: calc(55% - 596px/2);
+
+font-family: 'Be Vietnam Pro';
+font-style: italic;
+font-weight: 700;
+font-size: 20px;
+line-height: 25px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #5E5E5E;
+}
