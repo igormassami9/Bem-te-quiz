@@ -2,7 +2,7 @@
 session_start(); 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $conn = new mysqli("localhost", "root", "", "Bemtiquiz");
+    $conn = new mysqli("localhost", "root", "", "Bemtequiz");
 
     if ($conn->connect_error) {
         die("Erro na conexão: " . $conn->connect_error);
