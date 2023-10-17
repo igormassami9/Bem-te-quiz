@@ -248,7 +248,6 @@ input {
     width: 596px;
     height: 55px;
     left: calc(55% - 596px/2);
-
     font-family: 'Be Vietnam Pro';
     font-style: italic;
     font-weight: 700;
@@ -257,10 +256,8 @@ input {
     display: flex;
     align-items: center;
     text-align: center;
-
     color: #5E5E5E;
 }
-
 
 .rodape {
     width: 15%;
@@ -274,14 +271,11 @@ input {
 }
 
 .texto-rodape {
-    font-family: 'Be Vietnam Pro', sans-serif;
+    font-family: 'Be Vietnam Pro';
     color: #000;
     text-align: center;
     font-size: 41px;
-    font-style: normal;
     font-weight: 600;
-    line-height: normal;
-
 }
 
 .container {
@@ -301,15 +295,12 @@ input {
     justify-content: center;
     padding: 10px;
     margin: 10px;
-    
 }
 
 .texto-pergunta {
     color: #303030;
     text-align: center;
-    font-family: 'Be Vietnam Pro', sans-serif;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
+    font-family: 'Be Vietnam Pro';
+    font-size: 30px;
+    font-weight: bold;
 }

@@ -22,6 +22,16 @@ if (empty($questions)) {
     echo "Nenhuma pergunta encontrada.";
     exit();
 }
+
+$currentQuestionIndex = isset($_GET['q']) ? (int) $_GET['q'] : 0;
+$totalQuestions = count($questions);
+
+if ($currentQuestionIndex >= $totalQuestions) {
+    header("Location: Placar.php");
+    exit();
+}
+
+$currentQuestion = $questions[$currentQuestionIndex];
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +41,9 @@ if (empty($questions)) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modo Zen</title>
+    <title>Modo Zen - Pergunta
+        <?php echo $currentQuestionIndex + 1; ?>
+    </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href="Css/Style.css" rel="stylesheet" />
@@ -45,70 +57,59 @@ if (empty($questions)) {
         }
 
         .respostas-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
 
-        .resposta {
-            flex: 1;
-            margin: 5px;
-            display: flex;
-            width: 272px;
-            height: 55px;
-            flex-direction: column;
-            justify-content: center;
-            color: #303030;
-            text-align: center;
-            font-family: 'Be Vietnam Pro', sans-serif;
-            font-size: 20px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
-            border-radius: 36px;
-            background: #FFF;
-            box-shadow: 0px 8px 0px 0px #CDCDCD, 5px 12px 4px 0px rgba(0, 0, 0, 0.25);
-        }
+.resposta, .resposta-correta, .resposta-incorreta, .btn-seg {
+    flex: 1;
+    margin: 5px;
+    display: flex;
+    width: 272px;
+    height: 55px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Centraliza horizontalmente */
+    color: #303030;
+    text-align: center;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    border-radius: 36px;
+    background: #FFF;
+    box-shadow: 0px 8px 0px 0px #CDCDCD, 5px 12px 4px 0px rgba(0, 0, 0, 0.25);
+}
 
-        .resposta:hover {
-            background-color: #f0f0f0;
-        }
+.resposta:hover, .btn-seg:hover {
+    background-color: #f0f0f0;
+}
 
-        .resposta-correta {
-            width: 252px;
-            font-size: 20px;
-            background: #91FF75;
-            box-shadow: 0px 8px 0px 0px #91FF75, 5px 12px 4px 0px rgba(0, 0, 0, 0.25);
-        }
+.resposta-correta {
+    width: 252px;
+    font-size: 20px;
+    background: #91FF75;
+    box-shadow: 0px 8px 0px 0px #91FF75, 5px 12px 4px 0px rgba(0, 0, 0, 0.25);
+}
 
-        .resposta-incorreta {
-            width: 270px;
-            font-size: 20px;
-            background: #FF4B4B;
-            box-shadow: 0px 5px 0px 0px #FF1717, 5px 5px 4px 0px rgba(0, 0, 0, 0.25);
-        }
+.resposta-incorreta {
+    width: 270px;
+    font-size: 20px;
+    background: #FF4B4B;
+    box-shadow: 0px 5px 0px 0px #FF1717, 5px 5px 4px 0px rgba(0, 0, 0, 0.25);
+}
 
-        #resultado-btn {
-            display: none;
-            flex: 1;
-            margin: 5px;
-            width: 272px;
-            height: 55px;
-            flex-direction: column;
-            justify-content: center;
-            color: #303030;
-            text-align: center;
-            font-family: 'Be Vietnam Pro', sans-serif;
-            font-size: 20px;
-            font-style: normal;
-            font-weight: 600;
-            border-radius: 36px;
-            background: #FFF;
-            box-shadow: 0px 8px 0px 0px #CDCDCD, 5px 12px 4px 0px rgba(0, 0, 0, 0.25);
-            margin: 0 auto;
-        }
+#button-container {
+    position: absolute;
+    top: 10px; /* Ajuste a distância do topo conforme necessário */
+    right: 10px; /* Ajuste a distância da direita conforme necessário */
+}
+
+
+
     </style>
-
 </head>
 
 <body>
@@ -118,18 +119,21 @@ if (empty($questions)) {
 
     <div class="container centered-container">
         <div id="quiz-container">
-            <?php
-            $perguntaNum = 1;
-            foreach ($questions as $question) {
-                echo "<div class='d-flex justify-content-center'>";
-                echo "<div class='quadro-quiz justify-content-center'>";
-                echo "<div class='pergunta' id='pergunta-" . $perguntaNum . "'>";
-                echo "<p><strong>Pergunta " . $perguntaNum . ":</strong> " . $question['pergunta'] . "</p>";
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
-                $respostas = getAnswersByQuestionId($question['id']);
-                echo "<div class='respostas-container'>";
+            <div class='d-flex justify-content-center'>
+                <div class='quadro-quiz justify-content-center'>
+                    <div class='texto-pergunta'>
+                        <p><strong>Pergunta
+                                <?php echo $currentQuestionIndex + 1; ?>
+                            </strong>
+                            <br>
+                            <?php echo $currentQuestion['pergunta']; ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class='respostas-container'>
+                <?php
+                $respostas = getAnswersByQuestionId($currentQuestion['id']);
                 if (!empty($respostas)) {
                     foreach ($respostas as $resposta) {
                         echo '<button class="btn resposta" data-correta="' . $resposta["correta"] . '">' . $resposta["resposta"] . '</button>';
@@ -137,24 +141,31 @@ if (empty($questions)) {
                 } else {
                     echo "<div class='sem-respostas'>Nenhuma resposta encontrada.</div>";
                 }
-                echo "</div>";
-                echo "<br>";
-                $perguntaNum++;
-            }
-            ?>
+                ?>
+            </div>
+            <br>
         </div>
-        <button id="resultado-btn" class="btn" onclick="redirectToPlacar()">Ver Placar</button>
+        <div id="button-container" class="text-right">
+        <button id="proximo-btn" class="btn btn-seg" onclick="proximaPergunta()">Próxima Pergunta</button>
+        <button id="resultado-btn" class="btn btn-seg" onclick="redirectToPlacar()">Ver Placar</button>
+    </div>
         <br>
     </div>
 
     <script>
-        const resultadoBtn = document.getElementById('resultado-btn');
-        const respostas = document.querySelectorAll('.resposta');
-        const perguntasTotais = <?php echo count($questions); ?>;
-        let perguntasRespondidas = 0;
+    const proximoBtn = document.getElementById('proximo-btn');
+    const resultadoBtn = document.getElementById('resultado-btn');
+    const respostas = document.querySelectorAll('.resposta');
+    let perguntasRespondidas = 0;
+    const perguntasTotais = <?php echo count($questions); ?>;
+    let perguntaAtual = <?php echo $currentQuestionIndex; ?>;
+    let respostaSelecionada = false;
 
-        respostas.forEach(resposta => {
-            resposta.addEventListener('click', () => {
+    proximoBtn.disabled = true;
+
+    respostas.forEach(resposta => {
+        resposta.addEventListener('click', () => {
+            if (!respostaSelecionada) {
                 const correta = resposta.getAttribute('data-correta');
                 if (correta === "1") {
                     resposta.classList.add('resposta-correta');
@@ -163,17 +174,37 @@ if (empty($questions)) {
                 }
                 resposta.style.pointerEvents = 'none';
                 perguntasRespondidas++;
+                respostaSelecionada = true;
 
-                if (perguntasRespondidas === perguntasTotais) {
-                    resultadoBtn.style.display = 'block';
-                }
-            });
+                proximoBtn.disabled = false;
+            }
         });
+    });
 
-        function redirectToPlacar() {
-            window.location.href = 'Placar.php';
+    function proximaPergunta() {
+        perguntaAtual++;
+        atualizarBotoes();
+        if (perguntaAtual < perguntasTotais) {
+            window.location.href = `quiz-zen.php?q=${perguntaAtual}`;
         }
-    </script>
+    }
+
+    function redirectToPlacar() {
+        window.location.href = 'Placar.php';
+    }
+
+    function atualizarBotoes() {
+        if (perguntaAtual < perguntasTotais - 1) {
+            proximoBtn.disabled = true; // Desabilita o botão após o redirecionamento
+            resultadoBtn.style.display = 'none';
+        } else {
+            proximoBtn.style.display = 'none';
+            resultadoBtn.style.display = 'block';
+        }
+    }
+
+    atualizarBotoes();
+</script>
 
 </body>
 
