@@ -13,35 +13,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
-    <style>
-    body {
-        background-image: url('Css/BGLOGO.png');
-        background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        margin: 0;
-        font-family: 'Be Vietnam Pro', sans-serif;
-    }
+<style>
+body {
+    background-image: url('Css/BGLOGO.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
 
-    .quadro {
-        width: 801px;
-        height: 435px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 20px;
-        border: 2px solid #777;
-        background: rgba(255, 255, 255, 0.88);
-        box-shadow: 0px 8px 0px 0px #777, 4px 13px 4px 0px rgba(0, 0, 0, 0.25);
-    }
+.quadro {
+    width: 801px;
+    height: 435px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    border: 2px solid #777;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0px 8px 0px 0px #777, 4px 13px 4px 0px rgba(0, 0, 0, 0.25);
+}
 
-    .rodape-placar {
+.rodape-placar {
     width: 210px;
     height: 63.689px;
     flex-shrink: 0;
@@ -57,20 +57,21 @@
     font-weight: bold;
     font-size: 20px;
     z-index: 2;
-    }
+}
 
-    .rodape-resultado {
-        position: absolute;
-        width: 244px;
-        height: 60px;
-        flex-shrink: 0;
-        top: 0;
-        left: 0;
-        border-radius: 0px 0px 20px 0px;
-        background: #FFF;
-        box-shadow: 0px 8px 0px 0px #CDCDCD;
-    }
-    </style>
+.rodape-resultado {
+    position: absolute;
+    width: 244px;
+    height: 60px;
+    flex-shrink: 0;
+    top: 0;
+    left: 0;
+    border-radius: 0px 0px 20px 0px;
+    background: #FFF;
+    box-shadow: 0px 8px 0px 0px #CDCDCD;
+}
+</style>
+
 
 <body>
     <div class="rodape-resultado">
