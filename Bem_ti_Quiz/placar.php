@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
     <style>
     body {
         background-image: url('Css/BGLOGO.png');
@@ -70,7 +71,6 @@
         box-shadow: 0px 8px 0px 0px #CDCDCD;
     }
     </style>
-</head>
 
 <body>
     <div class="rodape-resultado">
