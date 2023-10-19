@@ -29,6 +29,7 @@ body {
 }
 
 .quadro {
+    color: black;
     width: 801px;
     height: 435px;
     position: absolute;
@@ -39,6 +40,7 @@ body {
     border: 2px solid #777;
     background: rgba(255, 255, 255, 0.88);
     box-shadow: 0px 8px 0px 0px #777, 4px 13px 4px 0px rgba(0, 0, 0, 0.25);
+    z-index: -2;
 }
 
 .rodape-placar {
@@ -70,6 +72,44 @@ body {
     background: #FFF;
     box-shadow: 0px 8px 0px 0px #CDCDCD;
 }
+
+.tabela-acertos {
+    position: relative;
+    color: #404040;
+
+    width: 210px;
+    height: 164px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    background: #EFBA00;
+    padding-top: 30%;
+    left: -110%;
+}
+
+.texto-acertos {
+    position: absolute;
+    top: 5%;
+    left: 34%;
+}
+
+.tabela-acertos2 {
+    width: 187px;
+    height: 117px;
+    top: 21%;
+    flex-shrink: 0;
+    border-radius: 15px;
+    background: #FFF;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.container {
+    position: absolute;
+    top: 10%;
+}
 </style>
 
 
@@ -78,13 +118,27 @@ body {
         <h1 class="texto-rodape">Resultado</h1>
     </div>
 
-    <div class="position-absolute top-50 start-50 translate-middle">
-        <div class="quadro"></div>
-    </div>
-
     <div class="rodape-placar">
         <p class="text-center fw-bold fs-2">Seu placar</p>
     </div>
+
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <div class="quadro"></div>
+
+        <div>
+            <p class="text-center fs-4 fw-bold">testando texto</p>
+        </div>
+
+        <div class="container">
+            <div class="tabela-acertos fw-bold">
+                <p class="texto-acertos">Acertos</p>
+                <div class="tabela-acertos2 fw-bold fs-1 d-flex align-items-center justify-content-center">
+                    <p class="center">7/10</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </body>
 
