@@ -1,10 +1,10 @@
 <?php
-include('db_functions_2.php');
+include('db_functions.php');
 
 session_start();
 
 if (!isset($_SESSION['random_question_ids'])) {
-    $_SESSION['random_question_ids'] = getRandomQuestionIds(10);
+    $_SESSION['random_question_ids'] = getRandomHistoriaQuestionIds(10);
 }
 
 $randomQuestionIds = $_SESSION['random_question_ids'];
@@ -226,59 +226,58 @@ $currentQuestion = $questions[$currentQuestionIndex];
     </div>
 
     <script>
-    const proximoBtn = document.getElementById('proximo-btn');
-    const resultadoBtn = document.getElementById('resultado-btn');
-    const respostas = document.querySelectorAll('.resposta');
-    let perguntasRespondidas = 0;
-    const perguntasTotais = <?php echo count($questions); ?>;
-    let perguntaAtual = <?php echo $currentQuestionIndex; ?>;
-    let respostaSelecionada = false;
+        const proximoBtn = document.getElementById('proximo-btn');
+        const resultadoBtn = document.getElementById('resultado-btn');
+        const respostas = document.querySelectorAll('.resposta');
+        let perguntasRespondidas = 0;
+        const perguntasTotais = <?php echo count($questions); ?>;
+        let perguntaAtual = <?php echo $currentQuestionIndex; ?>;
+        let respostaSelecionada = false;
 
-    proximoBtn.disabled = true;
+        proximoBtn.disabled = true;
 
-    respostas.forEach(resposta => {
-        resposta.addEventListener('click', () => {
-            if (!respostaSelecionada) {
-                const correta = resposta.getAttribute('data-correta');
-                if (correta === "1") {
-                    resposta.classList.add('resposta-correta');
-                } else {
-                    resposta.classList.add('resposta-incorreta');
+        respostas.forEach(resposta => {
+            resposta.addEventListener('click', () => {
+                if (!respostaSelecionada) {
+                    const correta = resposta.getAttribute('data-correta');
+                    if (correta === "1") {
+                        resposta.classList.add('resposta-correta');
+                    } else {
+                        resposta.classList.add('resposta-incorreta');
+                    }
+                    resposta.style.pointerEvents = 'none';
+                    perguntasRespondidas++;
+                    respostaSelecionada = true;
+
+                    proximoBtn.disabled = false;
                 }
-                resposta.style.pointerEvents = 'none';
-                perguntasRespondidas++;
-                respostaSelecionada = true;
-
-                proximoBtn.disabled = false;
-            }
+            });
         });
-    });
 
-    function proximaPergunta() {
-        perguntaAtual++;
+        function proximaPergunta() {
+            perguntaAtual++;
+            atualizarBotoes();
+            if (perguntaAtual < perguntasTotais) {
+                window.location.href = `quiz-zenHistoria.php?q=${perguntaAtual}`;
+            }
+        }
+
+        function redirectToPlacar() {
+            window.location.href = 'Placar.php';
+        }
+
+        function atualizarBotoes() {
+            if (perguntaAtual < perguntasTotais - 1) {
+                proximoBtn.disabled = true;
+                resultadoBtn.style.display = 'none';
+            } else {
+                proximoBtn.style.display = 'none';
+                resultadoBtn.style.display = 'block';
+            }
+        }
+
         atualizarBotoes();
-        if (perguntaAtual < perguntasTotais) {
-            window.location.href = `quiz-zen.php?q=${perguntaAtual}`;
-        }
-    }
-
-    function redirectToPlacar() {
-        window.location.href = 'Placar.php';
-    }
-
-    function atualizarBotoes() {
-        if (perguntaAtual < perguntasTotais - 1) {
-            proximoBtn.disabled = true; 
-            resultadoBtn.style.display = 'none';
-        } else {
-            proximoBtn.style.display = 'none';
-            resultadoBtn.style.display = 'block';
-        }
-    }
-
-    atualizarBotoes();
-</script>
-
+    </script>
 </body>
 
 </html>

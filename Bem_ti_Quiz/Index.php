@@ -8,6 +8,9 @@
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="Css/Style.css" rel="stylesheet" />
     <style>
         body {
@@ -142,8 +145,12 @@
         function verificarCheckboxes() {
             const modoZenSelecionado = $("#modozen").is(":checked");
             const tudoSelecionado = $("#tudo").is(":checked");
+            const faunaSelecionado = $("#fauna").is(":checked");
+            const floraSelecionado = $("#flora").is(":checked");
+            const historiaSelecionado = $("#historia").is(":checked");
+            const biomaSelecionado = $("#bioma").is(":checked");
 
-            if (modoZenSelecionado && tudoSelecionado) {
+            if (modoZenSelecionado && (tudoSelecionado || faunaSelecionado || floraSelecionado || historiaSelecionado || biomaSelecionado)) {
                 $("#btnJogar").prop("disabled", false);
             } else {
                 $("#btnJogar").prop("disabled", true);
@@ -153,10 +160,21 @@
         $("#btnJogar").click(function () {
             const modoZenSelecionado = $("#modozen").is(":checked");
             const tudoSelecionado = $("#tudo").is(":checked");
+            const faunaSelecionado = $("#fauna").is(":checked");
+            const floraSelecionado = $("#flora").is(":checked");
+            const historiaSelecionado = $("#historia").is(":checked");
+            const biomaSelecionado = $("#bioma").is(":checked");
 
             if (modoZenSelecionado && tudoSelecionado) {
-                // Redirecionar para a tela do "Modo Zen"
                 window.location.href = "quiz-zen.php";
+            } else if (modoZenSelecionado && faunaSelecionado) {
+                window.location.href = "quiz-zenFauna.php";
+            } else if (modoZenSelecionado && floraSelecionado) {
+                window.location.href = "quiz-zenFlora.php";
+            } else if (modoZenSelecionado && historiaSelecionado) {
+                window.location.href = "quiz-zenHistoria.php";
+            } else if (modoZenSelecionado && biomaSelecionado) {
+                window.location.href = "quiz-zenBioma.php";
             }
         });
     </script>

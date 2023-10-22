@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clássico</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href="Css/Style.css" rel="stylesheet" />
 </head>
 
@@ -28,7 +29,7 @@
             die("Conexão falhou: " . $conn->connect_error);
         }
 
-        $sqlPerguntas = "SELECT id, pergunta FROM perguntas WHERE id_categorias = 1"; 
+        $sqlPerguntas = "SELECT id, pergunta FROM perguntas WHERE id_categorias = 1";
         $resultPerguntas = $conn->query($sqlPerguntas);
 
         if ($resultPerguntas->num_rows > 0) {
@@ -77,7 +78,7 @@
                 $perguntaNum++;
             }
             $stmt->close();
-            echo "</div>"; 
+            echo "</div>";
         }
 
         $conn->close();
