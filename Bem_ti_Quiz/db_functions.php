@@ -167,6 +167,26 @@ function getQuestionById($questionId)
     return $question;
 }
 
+function getCuriosidadeByQuestionId($questionId)
+{
+    $conn = connectToDatabase();
+    $sql = "SELECT curiosidades FROM perguntas WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $questionId);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $curiosidade = $result->fetch_assoc();
+
+    $stmt->close();
+    closeDatabaseConnection($conn);
+
+    if ($curiosidade) {
+        return $curiosidade['curiosidades'];
+    } else {
+        return "Nenhuma curiosidade encontrada.";
+    }
+}
 
 
 ?>
