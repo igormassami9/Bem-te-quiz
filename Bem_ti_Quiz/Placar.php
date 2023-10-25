@@ -71,8 +71,9 @@ if (isset($_SESSION['contador_corretas'])) {
 
     .container-placar {
         width: 100%;
-        max-width: 571px;
-        height: 333px;
+        max-width: 800px;
+        height: 400px;
+        width: 700px;
         background: rgba(255, 255, 255, 0.88);
         border: 2px solid #777;
         border-radius: 20px;
@@ -104,7 +105,7 @@ if (isset($_SESSION['contador_corretas'])) {
 
     .incentivo {
         margin-top: 20%;
-        font-size: 20px; 
+        font-size: 25px; 
     }
 
     .text-msg{
@@ -139,27 +140,26 @@ if (isset($_SESSION['contador_corretas'])) {
         font-size: 20px;
     }
 
-    .dale{
-    background-color: #ffffff;
+    .botao-voltar{
+        background-color: #ffffff;
     color: rgb(0, 0, 0);
     border: none;
     padding: 5px 20px;
     border-radius: 5px;
     cursor: pointer;
-
     font-family: "Be Vietnam Pro", sans-serif;
     font-weight: bold;
     font-style: italic;
     text-align: center;
     font-size: 20px;
-
-    width: 70%;
-    height: 20%;
-    left: calc(50% - 209px/2 - 1.5px);
-    top: 600px;
+    width: 200px; 
+    height: 37px;
+    position: absolute;
+    bottom: 14px; 
+    left: 50%;
+    transform: translateX(-50%);
     box-shadow: 0px 8px 0px #CDCDCD;
     border-radius: 30px;
-    top:10%;
     }
 </style>
 
@@ -212,13 +212,12 @@ if (isset($_SESSION['contador_corretas'])) {
         </div>
     </div>
     
+
     
-    <div class="position-absolute bottom-0 start-50 translate-middle-x">
     <form method="post">
-        <button class="dale" type="submit" name="menu" class="btn btn-secondary">Voltar ao Menu</button>
+        <button class="botao-voltar" type="submit" name="menu" class="btn btn-secondary">Voltar ao Menu</button>
     </form>
-    </div>
-   <br>
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

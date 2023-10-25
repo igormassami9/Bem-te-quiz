@@ -32,6 +32,7 @@ if ($currentQuestionIndex >= $totalQuestions) {
 }
 
 $currentQuestion = $questions[$currentQuestionIndex];
+$curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
 ?>
 
 <!DOCTYPE html>
@@ -41,9 +42,7 @@ $currentQuestion = $questions[$currentQuestionIndex];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modo Zen - Pergunta
-        <?php echo $currentQuestionIndex + 1; ?>
-    </title>
+    <title>Modo Zen - Pergunta <?php echo $currentQuestionIndex + 1; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href="Css/Style.css" rel="stylesheet" />
@@ -168,7 +167,6 @@ $currentQuestion = $questions[$currentQuestionIndex];
             right: 10px;
         }
 
-
         #proximo-btn {
             color: #303030;
             background: #FFF;
@@ -177,9 +175,71 @@ $currentQuestion = $questions[$currentQuestionIndex];
             transition: background-color 0.3s;
         }
 
-
         #proximo-btn:disabled {
             background: #f0f0f0;
+        }
+
+        #curiosidade-alert {
+            font-family: 'Be Vietnam Pro';
+            font-size: 20px;
+            font-weight: bold;
+            position: fixed;
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            z-index: 1000;
+            display: none;
+            border-radius: 20px;
+            background: #91FF75;
+            box-shadow: 8px 8px 4px 564px rgba(0, 0, 0, 0.50), 0px 8px 4px 0px #6CBD58;
+        }
+
+        .quadro {
+            width: 400px;
+            height: 60px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 20px;
+            background: #FFF;
+            box-shadow: 0px 8px 0px 0px #CDCDCD;
+        }
+
+        .inside {
+            background: #FFBD12;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 20px;
+            color: #FFF;
+            text-align: center;
+            font-family: Be Vietnam Pro;
+            font-size: 40px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+
+        .seta {
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .contador {
+            font-size: 16px;
+            margin-right: 20px;
+        }
+
+        .cronometro {
+            font-size: 16px;
         }
     </style>
 </head>
@@ -189,16 +249,27 @@ $currentQuestion = $questions[$currentQuestionIndex];
         <h1 class="texto-rodape">Modo Zen</h1>
     </div>
 
+    <div class="position-absolute top-0 start-50 translate-middle-x">
+        <div class="quadro">
+            <div class="inside" id="inside">
+                <div class="seta" onclick="confirmarVolta()">&#8592;</div>
+            </div>
+            <div class="inside" id="inside">
+                <div class="contador" id="contador">
+                    <?php echo $currentQuestionIndex + 1; ?>/10
+                </div>
+            </div>
+            <div class="inside" id="inside">
+                <div class="cronometro" id="cronometro">00:00</div>
+            </div>
+        </div>
+    </div>
     <div class="container centered-container">
         <div id="quiz-container">
             <div class='d-flex justify-content-center'>
                 <div class='quadro-quiz justify-content-center'>
                     <div class='texto-pergunta'>
-                        <p><strong>Pergunta
-                                <?php echo $currentQuestionIndex + 1; ?>
-                            </strong><br>
-                            <?php echo $currentQuestion['pergunta']; ?>
-                        </p>
+                        <?php echo $currentQuestion['pergunta']; ?>
                     </div>
                 </div>
             </div>
@@ -225,59 +296,85 @@ $currentQuestion = $questions[$currentQuestionIndex];
         </div>
     </div>
 
+    <div id="curiosidade-alert" class="alert alert-info" role="alert">
+        <p id="curiosidade-text">
+            <?php echo $curiosidade; ?>
+        </p>
+    </div>
+
     <script>
-        const proximoBtn = document.getElementById('proximo-btn');
-        const resultadoBtn = document.getElementById('resultado-btn');
-        const respostas = document.querySelectorAll('.resposta');
-        let perguntasRespondidas = 0;
-        const perguntasTotais = <?php echo count($questions); ?>;
-        let perguntaAtual = <?php echo $currentQuestionIndex; ?>;
-        let respostaSelecionada = false;
+    const proximoBtn = document.getElementById('proximo-btn');
+    const resultadoBtn = document.getElementById('resultado-btn');
+    const respostas = document.querySelectorAll('.resposta');
+    let perguntasRespondidas = 0;
+    const perguntasTotais = <?php echo count($questions); ?>;
+    let perguntaAtual = <?php echo $currentQuestionIndex; ?>;
+    let respostaSelecionada = false;
 
-        proximoBtn.disabled = true;
+    proximoBtn.disabled = true;
 
-        respostas.forEach(resposta => {
-            resposta.addEventListener('click', () => {
-                if (!respostaSelecionada) {
-                    const correta = resposta.getAttribute('data-correta');
-                    if (correta === "1") {
-                        resposta.classList.add('resposta-correta');
-                    } else {
-                        resposta.classList.add('resposta-incorreta');
-                    }
-                    resposta.style.pointerEvents = 'none';
-                    perguntasRespondidas++;
-                    respostaSelecionada = true;
-
-                    proximoBtn.disabled = false;
+    respostas.forEach(resposta => {
+        resposta.addEventListener('click', () => {
+            if (!respostaSelecionada) {
+                const correta = resposta.getAttribute('data-correta');
+                if (correta === "1") {
+                    resposta.classList.add('resposta-correta');
+                    const curiosidadeAlert = document.getElementById('curiosidade-alert');
+                    curiosidadeAlert.style.display = 'block';
+                    incrementarContadorCorretas(); 
+                } else {
+                    resposta.classList.add('resposta-incorreta');
                 }
-            });
+                resposta.style.pointerEvents = 'none';
+                perguntasRespondidas++;
+                respostaSelecionada = true;
+
+                proximoBtn.disabled = false;
+            }
         });
+    });
 
-        function proximaPergunta() {
-            perguntaAtual++;
-            atualizarBotoes();
-            if (perguntaAtual < perguntasTotais) {
-                window.location.href = `quiz-zenHistoria.php?q=${perguntaAtual}`;
+    function incrementarContadorCorretas() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'atualizar_contador.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
             }
-        }
+        };
+        xhr.send('incrementar=1');
+    }
 
-        function redirectToPlacar() {
-            window.location.href = 'Placar.php';
-        }
-
-        function atualizarBotoes() {
-            if (perguntaAtual < perguntasTotais - 1) {
-                proximoBtn.disabled = true;
-                resultadoBtn.style.display = 'none';
-            } else {
-                proximoBtn.style.display = 'none';
-                resultadoBtn.style.display = 'block';
-            }
-        }
-
+    function proximaPergunta() {
+        perguntaAtual++;
         atualizarBotoes();
+        if (perguntaAtual < perguntasTotais) {
+            window.location.href = `quiz-zenHistoria.php?q=${perguntaAtual}`;
+        }
+    }
+
+    function redirectToPlacar() {
+        window.location.href = 'Placar.php';
+    }
+
+    function atualizarBotoes() {
+        if (perguntaAtual < perguntasTotais - 1) {
+            proximoBtn.disabled = true;
+            resultadoBtn.style.display = 'none';
+        } else {
+            proximoBtn.style.display = 'none';
+            resultadoBtn.style.display = 'block';
+        }
+    }
+
+    atualizarBotoes();
+
+    function confirmarVolta() {
+        const confirmar = confirm("Deseja voltar ao menu principal?");
+        if (confirmar) {
+            window.location.href = "index.php";
+        }
+    }
     </script>
 </body>
-
 </html>

@@ -4,8 +4,6 @@ include('db_functions.php');
 session_start();
 
 
-
-
 if (!isset($_SESSION['random_question_ids'])) {
     $_SESSION['random_question_ids'] = getRandomFaunaQuestionIds(10);
 }
@@ -329,7 +327,7 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
                     resposta.classList.add('resposta-correta');
                     const curiosidadeAlert = document.getElementById('curiosidade-alert');
                     curiosidadeAlert.style.display = 'block';
-                    incrementarContadorCorretas(); // Incrementa o contador de respostas corretas
+                    incrementarContadorCorretas(); 
                 } else {
                     resposta.classList.add('resposta-incorreta');
                 }
@@ -342,15 +340,13 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
         });
     });
 
-    // Função para incrementar o contador de respostas corretas
+  
     function incrementarContadorCorretas() {
-        // Faz uma solicitação Ajax para incrementar o contador no lado do servidor
         const xhr = new XMLHttpRequest();
         xhr.open('POST', 'atualizar_contador.php', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                // Contador atualizado no lado do servidor
             }
         };
         xhr.send('incrementar=1');
