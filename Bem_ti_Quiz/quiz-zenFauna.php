@@ -3,6 +3,11 @@ include('db_functions.php');
 
 session_start();
 
+if (isset($_GET['sair'])) {
+    unset($_SESSION['random_question_ids']);
+    header("Location: index.php");
+    exit();
+}
 
 if (!isset($_SESSION['random_question_ids'])) {
     $_SESSION['random_question_ids'] = getRandomFaunaQuestionIds(10);
@@ -34,7 +39,6 @@ if ($currentQuestionIndex >= $totalQuestions) {
 
 $currentQuestion = $questions[$currentQuestionIndex];
 $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
-
 
 ?>
 
@@ -246,10 +250,34 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
         .cronometro {
             font-size: 16px;
         }
+
+        .close-button {
+            border: 0px;
+        flex: 1;
+        margin: 5px;
+        min-width: 0;
+        height: auto;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #303030;
+        text-align: center;
+        font-family: 'Be Vietnam Pro', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        border-radius: 36px;
+        background: #FFF;
+        box-shadow: 0px 8px 0px 0px #CDCDCD, 5px 12px 4px 0px rgba(0, 0, 0, 0.25);
+    }
+    
     </style>
 </head>
 
 <body>
+<div id="overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; z-index: 999;"></div>
+
     <div class="rodape">
         <h1 class="texto-rodape">Modo Zen</h1>
     </div>
@@ -301,12 +329,14 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
     </div>
     </div>
 
-
     <div id="curiosidade-alert" class="alert alert-info" role="alert">
-        <p id="curiosidade-text">
-            <?php echo $curiosidade; ?>
-        </p>
-    </div>
+    <p id="curiosidade-text">
+        <?php echo $curiosidade; ?>
+    </p>
+    <button id="close-button" class="close-button" onclick="fecharAlerta()">Fechar</button>
+</div>
+
+
 
     <script>
     const proximoBtn = document.getElementById('proximo-btn');
@@ -320,27 +350,35 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
     proximoBtn.disabled = true;
 
     respostas.forEach(resposta => {
-        resposta.addEventListener('click', () => {
-            if (!respostaSelecionada) {
-                const correta = resposta.getAttribute('data-correta');
-                if (correta === "1") {
-                    resposta.classList.add('resposta-correta');
-                    const curiosidadeAlert = document.getElementById('curiosidade-alert');
-                    curiosidadeAlert.style.display = 'block';
-                    incrementarContadorCorretas(); 
-                } else {
-                    resposta.classList.add('resposta-incorreta');
-                }
-                resposta.style.pointerEvents = 'none';
-                perguntasRespondidas++;
-                respostaSelecionada = true;
-
-                proximoBtn.disabled = false;
+    resposta.addEventListener('click', () => {
+        if (!respostaSelecionada) {
+            const correta = resposta.getAttribute('data-correta');
+            if (correta === "1") {
+                resposta.classList.add('resposta-correta');
+                const curiosidadeAlert = document.getElementById('curiosidade-alert');
+                curiosidadeAlert.style.display = 'block';
+                incrementarContadorCorretas();
+                var overlay = document.getElementById("overlay");
+                overlay.style.display = 'block'; // Exibir o overlay ao mostrar o alert
+            } else {
+                resposta.classList.add('resposta-incorreta');
             }
-        });
+            resposta.style.pointerEvents = 'none';
+            perguntasRespondidas++;
+            respostaSelecionada = true;
+            proximoBtn.disabled = false;
+        }
     });
+});
+    
+    function fecharAlerta() {
+    var alertDiv = document.getElementById("curiosidade-alert");
+    alertDiv.style.display = "none";
+    var overlay = document.getElementById("overlay");
+    overlay.style.display = "none";
+}
 
-  
+
     function incrementarContadorCorretas() {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', 'atualizar_contador.php', true);
@@ -379,6 +417,7 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
     function confirmarVolta() {
         const confirmar = confirm("Deseja voltar ao menu principal?");
         if (confirmar) {
+            <?php unset($_SESSION['random_question_ids']); ?>
             window.location.href = "index.php";
         }
     }
