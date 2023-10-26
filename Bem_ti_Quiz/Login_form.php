@@ -1,5 +1,5 @@
 <?php
-session_start(); 
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn = new mysqli("localhost", "root", "", "Bemtequiz");
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row["password"])) {
-            $_SESSION["username"] = $row["username"]; 
+            $_SESSION["username"] = $row["username"];
             header("Location: index.php");
             exit();
         } else {

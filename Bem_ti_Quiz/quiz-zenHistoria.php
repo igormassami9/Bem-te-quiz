@@ -1,5 +1,5 @@
 <?php
-include('db_functions_2.php');
+include('db_functions.php');
 
 session_start();
 
@@ -10,7 +10,7 @@ if (isset($_GET['sair'])) {
 }
 
 if (!isset($_SESSION['random_question_ids'])) {
-    $_SESSION['random_question_ids'] = getRandomQuestionIds(10);
+    $_SESSION['random_question_ids'] = getRandomHistoriaQuestionIds(10);
 }
 
 $randomQuestionIds = $_SESSION['random_question_ids'];
@@ -49,11 +49,8 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modo Zen - Pergunta
-        <?php echo $currentQuestionIndex + 1; ?>
-    </title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Modo Zen - Pergunta <?php echo $currentQuestionIndex + 1; ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href="Css/Style.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -275,9 +272,7 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
 </head>
 
 <body>
-    <div id="overlay"
-        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; z-index: 999;">
-    </div>
+<div id="overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; z-index: 999;"></div>
 
     <div class="rodape">
         <h1 class="texto-rodape">Modo Zen</h1>
@@ -331,98 +326,95 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
     </div>
 
     <div id="curiosidade-alert" class="alert alert-info" role="alert">
-        <p id="curiosidade-text">
-            <?php echo $curiosidade; ?>
-        </p>
-        <button id="close-button" class="close-button" onclick="fecharAlerta()">Fechar</button>
-    </div>
+    <p id="curiosidade-text">
+        <?php echo $curiosidade; ?>
+    </p>
+    <button id="close-button" class="close-button" onclick="fecharAlerta()">Fechar</button>
+</div>
 
+<script>
+    const proximoBtn = document.getElementById('proximo-btn');
+    const resultadoBtn = document.getElementById('resultado-btn');
+    const respostas = document.querySelectorAll('.resposta');
+    let perguntasRespondidas = 0;
+    const perguntasTotais = <?php echo count($questions); ?>;
+    let perguntaAtual = <?php echo $currentQuestionIndex; ?>;
+    let respostaSelecionada = false;
 
+    proximoBtn.disabled = true;
 
-    <script>
-        const proximoBtn = document.getElementById('proximo-btn');
-        const resultadoBtn = document.getElementById('resultado-btn');
-        const respostas = document.querySelectorAll('.resposta');
-        let perguntasRespondidas = 0;
-        const perguntasTotais = <?php echo count($questions); ?>;
-        let perguntaAtual = <?php echo $currentQuestionIndex; ?>;
-        let respostaSelecionada = false;
-
-        proximoBtn.disabled = true;
-
-        respostas.forEach(resposta => {
-            resposta.addEventListener('click', () => {
-                if (!respostaSelecionada) {
-                    const correta = resposta.getAttribute('data-correta');
-                    if (correta === "1") {
-                        resposta.classList.add('resposta-correta');
-                        const curiosidadeAlert = document.getElementById('curiosidade-alert');
-                        curiosidadeAlert.style.display = 'block';
-                        incrementarContadorCorretas();
-                        var overlay = document.getElementById("overlay");
-                        overlay.style.display = 'block'; // Exibir o overlay ao mostrar o alert
-                    } else {
-                        resposta.classList.add('resposta-incorreta');
-                    }
-                    resposta.style.pointerEvents = 'none';
-                    perguntasRespondidas++;
-                    respostaSelecionada = true;
-                    proximoBtn.disabled = false;
+    respostas.forEach(resposta => {
+        resposta.addEventListener('click', () => {
+            if (!respostaSelecionada) {
+                const correta = resposta.getAttribute('data-correta');
+                if (correta === "1") {
+                    resposta.classList.add('resposta-correta');
+                    const curiosidadeAlert = document.getElementById('curiosidade-alert');
+                    curiosidadeAlert.style.display = 'block';
+                    incrementarContadorCorretas();
+                    var overlay = document.getElementById("overlay");
+                    overlay.style.display = 'block'; // Exibir o overlay ao mostrar o alert
+                } else {
+                    resposta.classList.add('resposta-incorreta');
                 }
-            });
+                resposta.style.pointerEvents = 'none';
+                perguntasRespondidas++;
+                respostaSelecionada = true;
+                proximoBtn.disabled = false;
+            }
         });
+    });
 
-        function fecharAlerta() {
-            var alertDiv = document.getElementById("curiosidade-alert");
-            alertDiv.style.display = "none";
-            var overlay = document.getElementById("overlay");
-            overlay.style.display = "none";
-        }
+    function fecharAlerta() {
+        var alertDiv = document.getElementById("curiosidade-alert");
+        alertDiv.style.display = "none";
+        var overlay = document.getElementById("overlay");
+        overlay.style.display = "none";
+    }
 
-
-        function incrementarContadorCorretas() {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'atualizar_contador.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                }
-            };
-            xhr.send('incrementar=1');
-        }
-
-        function proximaPergunta() {
-            perguntaAtual++;
-            atualizarBotoes();
-            if (perguntaAtual < perguntasTotais) {
-                window.location.href = `quiz-zen.php?q=${perguntaAtual}`;
+    function incrementarContadorCorretas() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'atualizar_contador.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
             }
-        }
+        };
+        xhr.send('incrementar=1');
+    }
 
-        function redirectToPlacar() {
-            window.location.href = 'Placar.php';
-        }
-
-        function atualizarBotoes() {
-            if (perguntaAtual < perguntasTotais - 1) {
-                proximoBtn.disabled = true;
-                resultadoBtn.style.display = 'none';
-            } else {
-                proximoBtn.style.display = 'none';
-                resultadoBtn.style.display = 'block';
-            }
-        }
-
+    function proximaPergunta() {
+        perguntaAtual++;
         atualizarBotoes();
-
-        function confirmarVolta() {
-            const confirmar = confirm("Deseja voltar ao menu principal?");
-            if (confirmar) {
-                <?php unset($_SESSION['random_question_ids']); ?>
-                window.location.href = "index.php";
-            }
+        if (perguntaAtual < perguntasTotais) {
+            window.location.href = `quiz-zenHistoria.php?q=${perguntaAtual}`;
         }
-    </script>
+    }
+
+    function redirectToPlacar() {
+        window.location.href = 'Placar.php';
+    }
+
+    function atualizarBotoes() {
+        if (perguntaAtual < perguntasTotais - 1) {
+            proximoBtn.disabled = true;
+            resultadoBtn.style.display = 'none';
+        } else {
+            proximoBtn.style.display = 'none';
+            resultadoBtn.style.display = 'block';
+        }
+    }
+
+    atualizarBotoes();
+
+    function confirmarVolta() {
+        const confirmar = confirm("Deseja voltar ao menu principal?");
+        if (confirmar) {
+            <?php unset($_SESSION['random_question_ids']); ?>
+            window.location.href = "index.php";
+        }
+    }
+</script>
 
 </body>
 

@@ -1,5 +1,6 @@
 <?php
-function connectToDatabase() {
+function connectToDatabase()
+{
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -14,36 +15,122 @@ function connectToDatabase() {
     return $conn;
 }
 
-
-function closeDatabaseConnection($conn) {
+function closeDatabaseConnection($conn)
+{
     $conn->close();
 }
 
-function fetchAll($conn, $sql) {
+function getQuestionsByCategory($categoryId)
+{
+    $conn = connectToDatabase();
+    $sql = "SELECT id, pergunta, id_categorias FROM perguntas WHERE id_categorias = ?";
     $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $categoryId);
     $stmt->execute();
 
     $result = $stmt->get_result();
-    $data = array();
+    $questions = array();
 
     while ($row = $result->fetch_assoc()) {
-        $data[] = $row;
+        $questions[] = $row;
     }
 
     $stmt->close();
-
-    return $data;
-}
-
-function getAllQuestions() {
-    $conn = connectToDatabase();
-    $sql = "SELECT id, pergunta, id_categorias FROM perguntas";
-    $questions = fetchAll($conn, $sql);
     closeDatabaseConnection($conn);
+
     return $questions;
 }
 
-function getAnswersByQuestionId($questionId) {
+function getRandomFaunaQuestionIds($count)
+{
+    $conn = connectToDatabase();
+
+    $sql = "SELECT id FROM perguntas WHERE id_categorias = 1 ORDER BY RAND() LIMIT ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $count);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $questionIds = array();
+
+    while ($row = $result->fetch_assoc()) {
+        $questionIds[] = $row['id'];
+    }
+
+    $stmt->close();
+    closeDatabaseConnection($conn);
+
+    return $questionIds;
+}
+
+function getRandomFloraQuestionIds($count)
+{
+    $conn = connectToDatabase();
+
+    $sql = "SELECT id FROM perguntas WHERE id_categorias = 2 ORDER BY RAND() LIMIT ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $count);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $questionIds = array();
+
+    while ($row = $result->fetch_assoc()) {
+        $questionIds[] = $row['id'];
+    }
+
+    $stmt->close();
+    closeDatabaseConnection($conn);
+
+    return $questionIds;
+}
+
+function getRandomHistoriaQuestionIds($count)
+{
+    $conn = connectToDatabase();
+
+    $sql = "SELECT id FROM perguntas WHERE id_categorias = 3 ORDER BY RAND() LIMIT ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $count);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $questionIds = array();
+
+    while ($row = $result->fetch_assoc()) {
+        $questionIds[] = $row['id'];
+    }
+
+    $stmt->close();
+    closeDatabaseConnection($conn);
+
+    return $questionIds;
+}
+
+function getRandomBiomaQuestionIds($count)
+{
+    $conn = connectToDatabase();
+
+    $sql = "SELECT id FROM perguntas WHERE id_categorias = 4 ORDER BY RAND() LIMIT ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $count);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $questionIds = array();
+
+    while ($row = $result->fetch_assoc()) {
+        $questionIds[] = $row['id'];
+    }
+
+    $stmt->close();
+    closeDatabaseConnection($conn);
+
+    return $questionIds;
+}
+
+function getAnswersByQuestionId($questionId)
+{
     $conn = connectToDatabase();
     $sql = "SELECT id, resposta, correta FROM respostas WHERE pergunta_id = ?";
     $stmt = $conn->prepare($sql);
@@ -63,7 +150,8 @@ function getAnswersByQuestionId($questionId) {
     return $answers;
 }
 
-function getQuestionById($questionId) {
+function getQuestionById($questionId)
+{
     $conn = connectToDatabase();
     $sql = "SELECT id, pergunta, id_categorias FROM perguntas WHERE id = ?";
     $stmt = $conn->prepare($sql);
@@ -79,23 +167,26 @@ function getQuestionById($questionId) {
     return $question;
 }
 
-function getRandomQuestionIds($count) {
+function getCuriosidadeByQuestionId($questionId)
+{
     $conn = connectToDatabase();
+    $sql = "SELECT curiosidades FROM perguntas WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $questionId);
+    $stmt->execute();
 
-    $sql = "SELECT id FROM perguntas";
-    $result = $conn->query($sql);
-    $availableQuestionIds = array();
+    $result = $stmt->get_result();
+    $curiosidade = $result->fetch_assoc();
 
-    while ($row = $result->fetch_assoc()) {
-        $availableQuestionIds[] = $row['id'];
+    $stmt->close();
+    closeDatabaseConnection($conn);
+
+    if ($curiosidade) {
+        return $curiosidade['curiosidades'];
+    } else {
+        return "Nenhuma curiosidade encontrada.";
     }
-
-    shuffle($availableQuestionIds);
-
-    $randomQuestionIds = array_slice($availableQuestionIds, 0, $count);
-
-    $conn->close();
-
-    return $randomQuestionIds;
 }
+
+
 ?>
