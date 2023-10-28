@@ -20,6 +20,8 @@ function closeDatabaseConnection($conn)
     $conn->close();
 }
 
+
+
 function getQuestionsByCategory($categoryId)
 {
     $conn = connectToDatabase();

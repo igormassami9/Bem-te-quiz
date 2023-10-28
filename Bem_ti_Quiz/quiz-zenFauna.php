@@ -3,6 +3,8 @@ include('db_functions.php');
 
 session_start();
 
+
+
 if (isset($_GET['sair'])) {
     unset($_SESSION['random_question_ids']);
     header("Location: index.php");
@@ -40,6 +42,13 @@ if ($currentQuestionIndex >= $totalQuestions) {
 $currentQuestion = $questions[$currentQuestionIndex];
 $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
 
+$imagensAleatorias = array(
+    'Css/Curiosidade_01.jpg',
+    'Css/Curiosidade_02.jpg',
+    'Css/Curiosidade_03.jpg'
+);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -54,8 +63,8 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
     </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link href="Css/Style.css" rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="Css/Estilo.css" rel="stylesheet" />
+            <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
@@ -145,7 +154,7 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
             line-height: normal;
             border-radius: 36px;
             background: #91FF75;
-            box-shadow: 0px 8px 0px 0px #91FF75, 5px 12px 4px 0px rgba(0, 0, 0, 0.25);
+            box-shadow: 0px 8px 0px 0px #407334, 5px 12px 4px 0px rgba(0, 0, 0, 0.25);
         }
 
         .resposta-incorreta {
@@ -193,7 +202,7 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
             font-size: 20px;
             font-weight: bold;
             position: fixed;
-            top: 15%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: #fff;
@@ -330,98 +339,125 @@ $curiosidade = getCuriosidadeByQuestionId($currentQuestion['id']);
     </div>
 
     <div id="curiosidade-alert" class="alert alert-info" role="alert">
-    <p id="curiosidade-text">
-        <?php echo $curiosidade; ?>
-    </p>
-    <button id="close-button" class="close-button" onclick="fecharAlerta()">Fechar</button>
-</div>
+        <p id="curiosidade-text">
+            <?php echo $curiosidade; ?>
+        </p>
+        <img id="imagem-aleatoria" src="" alt="Imagem Aleatória">
+        <br>
+        <button id="close-button" class="close-button" onclick="fecharAlerta()">Fechar</button>
+    </div>
 
+<audio id="som-acerto">
+        <source src="CSS/correct.mp3" type="audio/mpeg">
+    </audio>
 
+    <audio id="som-erro">
+        <source src="CSS/incorrect.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
-    const proximoBtn = document.getElementById('proximo-btn');
-    const resultadoBtn = document.getElementById('resultado-btn');
-    const respostas = document.querySelectorAll('.resposta');
-    let perguntasRespondidas = 0;
-    const perguntasTotais = <?php echo count($questions); ?>;
-    let perguntaAtual = <?php echo $currentQuestionIndex; ?>;
-    let respostaSelecionada = false;
+        const proximoBtn = document.getElementById('proximo-btn');
+        const resultadoBtn = document.getElementById('resultado-btn');
+        const respostas = document.querySelectorAll('.resposta');
+        let perguntasRespondidas = 0;
+        const perguntasTotais = <?php echo count($questions); ?>;
+        let perguntaAtual = <?php echo $currentQuestionIndex; ?>;
+        let respostaSelecionada = false;
 
-    proximoBtn.disabled = true;
+        proximoBtn.disabled = true;
 
-    respostas.forEach(resposta => {
-    resposta.addEventListener('click', () => {
-        if (!respostaSelecionada) {
-            const correta = resposta.getAttribute('data-correta');
-            if (correta === "1") {
-                resposta.classList.add('resposta-correta');
-                const curiosidadeAlert = document.getElementById('curiosidade-alert');
-                curiosidadeAlert.style.display = 'block';
-                incrementarContadorCorretas();
-                var overlay = document.getElementById("overlay");
-                overlay.style.display = 'block'; // Exibir o overlay ao mostrar o alert
+        respostas.forEach(resposta => {
+            resposta.addEventListener('click', () => {
+                if (!respostaSelecionada) {
+                    const correta = resposta.getAttribute('data-correta');
+                    if (correta === "1") {
+                        resposta.classList.add('resposta-correta');
+                        const somAcerto = document.getElementById('som-acerto');
+                        somAcerto.play();
+                        const curiosidadeAlert = document.getElementById('curiosidade-alert');
+                        curiosidadeAlert.style.display = 'block';
+                        incrementarContadorCorretas();
+                        var overlay = document.getElementById("overlay");
+                        overlay.style.display = 'block';
+                    } else {
+                        resposta.classList.add('resposta-incorreta');
+                        const somErro = document.getElementById('som-erro');
+                        somErro.play();
+                    }
+                    resposta.style.pointerEvents = 'none';
+                    perguntasRespondidas++;
+                    respostaSelecionada = true;
+                    proximoBtn.disabled = false;
+                }
+            });
+        });
+
+        function escolherImagemAleatoria() {
+            const indiceAleatorio = Math.floor(Math.random() * <?php echo count($imagensAleatorias); ?>);
+            const imagemAleatoria = <?php echo json_encode($imagensAleatorias); ?>[indiceAleatorio];
+            return imagemAleatoria;
+        }
+
+        function atualizarImagemAleatoria() {
+            const imagemAleatoria = escolherImagemAleatoria();
+            const imagemElement = document.getElementById('imagem-aleatoria');
+            imagemElement.src = imagemAleatoria;
+        }
+
+
+        atualizarImagemAleatoria();
+
+        function fecharAlerta() {
+            var alertDiv = document.getElementById("curiosidade-alert");
+            alertDiv.style.display = "none";
+            var overlay = document.getElementById("overlay");
+            overlay.style.display = "none";
+        }
+
+
+        function incrementarContadorCorretas() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'atualizar_contador.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                }
+            };
+            xhr.send('incrementar=1');
+        }
+
+        function proximaPergunta() {
+            perguntaAtual++;
+            atualizarBotoes();
+            if (perguntaAtual < perguntasTotais) {
+                window.location.href = `quiz-zen.php?q=${perguntaAtual}`;
+            }
+        }
+
+        function redirectToPlacar() {
+            window.location.href = 'Placar.php';
+        }
+
+        function atualizarBotoes() {
+            if (perguntaAtual < perguntasTotais - 1) {
+                proximoBtn.disabled = true;
+                resultadoBtn.style.display = 'none';
             } else {
-                resposta.classList.add('resposta-incorreta');
+                proximoBtn.style.display = 'none';
+                resultadoBtn.style.display = 'block';
             }
-            resposta.style.pointerEvents = 'none';
-            perguntasRespondidas++;
-            respostaSelecionada = true;
-            proximoBtn.disabled = false;
         }
-    });
-});
-    
-    function fecharAlerta() {
-    var alertDiv = document.getElementById("curiosidade-alert");
-    alertDiv.style.display = "none";
-    var overlay = document.getElementById("overlay");
-    overlay.style.display = "none";
-}
 
-
-    function incrementarContadorCorretas() {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'atualizar_contador.php', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-            }
-        };
-        xhr.send('incrementar=1');
-    }
-
-    function proximaPergunta() {
-        perguntaAtual++;
         atualizarBotoes();
-        if (perguntaAtual < perguntasTotais) {
-            window.location.href = `quiz-zenFauna.php?q=${perguntaAtual}`;
+
+        function confirmarVolta() {
+            const confirmar = confirm("Deseja voltar ao menu principal?");
+            if (confirmar) {
+                <?php unset($_SESSION['random_question_ids']); ?>
+                window.location.href = "index.php";
+            }
         }
-    }
-
-    function redirectToPlacar() {
-        window.location.href = 'Placar.php';
-    }
-
-    function atualizarBotoes() {
-        if (perguntaAtual < perguntasTotais - 1) {
-            proximoBtn.disabled = true;
-            resultadoBtn.style.display = 'none';
-        } else {
-            proximoBtn.style.display = 'none';
-            resultadoBtn.style.display = 'block';
-        }
-    }
-
-    atualizarBotoes();
-
-    function confirmarVolta() {
-        const confirmar = confirm("Deseja voltar ao menu principal?");
-        if (confirmar) {
-            <?php unset($_SESSION['random_question_ids']); ?>
-            window.location.href = "index.php";
-        }
-    }
-</script>
+    </script>
 
 </body>
 

@@ -1,0 +1,345 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(0deg, #FFBF1C 30%, #FFEC44 52%);
+    text-align: center;
+    margin: 0;
+    overflow-x: auto;
+    overflow-y: auto;
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        background-position: center top; 
+    }
+
+    .container-fluid {
+        width: 90%; 
+    }
+
+    .container-sm {
+        width: 90%; 
+    }
+
+    .btn-warning {
+        width: 100%; 
+    }
+}
+
+
+
+.figureBK {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    z-index: -1;
+
+}
+
+img.increase-size {
+    width: 525px;
+    height: auto;
+    padding-top: 15%;
+    padding-left: 5%;
+}
+
+
+.container-fluid {
+    background-color: #fff;
+    border-radius: 50px 0px 0px 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 500px;
+    padding-bottom: 5pc;
+    padding-top: 6pc;
+    padding-left: 2pc;
+    padding-right: 2pc;
+}
+
+.container-sm {
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.88);
+    width: 686px;
+    height: 528px;
+    border-radius: 25px;
+    padding: 20px;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    background: #1F222A;
+    color: #ccc;
+    border: none;
+    outline: none;
+    padding-right: 150px;
+
+}
+
+.btn-warning {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 100px;
+    border: 1px solid #ccc;
+    background: #FFCD1C;
+    border-radius: 36px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    color: #000000;
+    width: 235px;
+    height: 51px;
+    flex-shrink: 0;
+
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+
+label {
+    text-align: left;
+    display: block;
+    margin-bottom: 10px;
+}
+
+
+input {
+    width: 100%;
+}
+
+.TextAP {
+
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #858494;
+
+
+}
+
+/* Home */
+
+.container-md {
+    max-width: 18%;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 5px solid #ced4da;
+    border-radius: 25px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container-md > * {
+    margin: 10px;
+}
+
+.container-md p {
+    font-size: 16px; 
+    margin: 0;
+}
+
+.container-md a {
+    text-decoration: none; 
+    color: #ffffff; 
+}
+
+
+.btn-logout {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+}
+
+.container-lg {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-bottom: 6px solid #bec3c9;
+    border-radius: 100px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.custom-checkbox {
+    display: none;
+}
+
+.custom-checkbox+label {
+    cursor: pointer;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    margin-right: 10px;
+    background-color: #87FF69;
+    filter: drop-shadow(0px 8px 0px #4c913b) drop-shadow(4px 10px 4px rgba(0, 0, 0, 0.25));
+}
+
+.custom-checkbox+label img {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.custom-checkbox:checked+label {
+    background-color: #FFE81D;
+        filter: drop-shadow(0px 8px 0px #DBC715) drop-shadow(4px 10px 4px rgba(0, 0, 0, 0.25));
+}
+
+.circle {
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+}
+
+.custom-checkbox2 {
+    display: none;
+}
+
+.custom-checkbox2+label {
+    cursor: pointer;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    margin-right: 10px;
+    background-color: #87FF69;
+    filter: drop-shadow(0px 8px 0px #4c913b) drop-shadow(4px 10px 4px rgba(0, 0, 0, 0.25));
+}
+
+.custom-checkbox2+label img {
+    max-width: 44px;
+    max-height: 44px;
+}
+
+.custom-checkbox2:checked+label {
+    background-color: #FFE81D;
+    filter: drop-shadow(0px 8px 0px #DBC715) drop-shadow(4px 10px 4px rgba(0, 0, 0, 0.25));
+}
+
+
+#btnJogar {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 5px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    font-size: 40px;
+
+    width: 200px;
+    height: 70px;
+    left: calc(50% - 209px/2 - 1.5px);
+    top: 600px;
+    box-shadow: 0px 8px 0px #CDCDCD;
+    border-radius: 30px;
+
+}
+
+#btnJogar:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+}
+
+.Texto {
+    position: absolute;
+    width: 596px;
+    height: 55px;
+    left: calc(55% - 596px/2);
+    font-family: 'Be Vietnam Pro';
+    font-style: italic;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 25px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #5E5E5E;
+}
+
+.rodape {
+    width: 15%;
+    height: 74px;
+    background: #FFF;
+    border-radius: 0 0 20px 0;
+    box-shadow: 0 8px 0 0 #CDCDCD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.texto-rodape {
+    font-family: 'Be Vietnam Pro';
+    color: #000;
+    text-align: center;
+    font-size: 41px;
+    font-weight: 600;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+.quadro-quiz {
+    width: 100%;
+    max-width: 571px;
+    height: 333px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 2px solid #777;
+    border-radius: 20px;
+    box-shadow: 0 8px 0 0 #777, 4px 13px 4px 0 rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    margin: 10px;
+}
+
+.texto-pergunta {
+    color: #303030;
+    text-align: center;
+    font-family: 'Be Vietnam Pro';
+    font-size: 30px;
+    font-weight: bold;
+}
+
+

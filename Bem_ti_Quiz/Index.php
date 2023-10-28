@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
-    <link href="Css/Style.css" rel="stylesheet" />
+    <link href="Css/estilo.css" rel="stylesheet" />
     <style>
         body {
             background-image: url('Css/BGLOGO.png');
