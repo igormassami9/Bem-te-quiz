@@ -1,5 +1,5 @@
 <?php
-include('db_functions_2.php');
+include('db_functions.php');
 session_start();
 
 if (isset($_GET['sair'])) {
@@ -9,7 +9,7 @@ if (isset($_GET['sair'])) {
 }
 
 if (!isset($_SESSION['random_question_ids'])) {
-    $_SESSION['random_question_ids'] = getRandomQuestionIds(10);
+    $_SESSION['random_question_ids'] = getRandomHistoriaQuestionIds(10);
 }
 
 $randomQuestionIds = $_SESSION['random_question_ids'];
@@ -80,13 +80,6 @@ $imagensAleatorias = array(
             align-items: center;
         }
 
-        .texto-rodape {
-    font-family: 'Be Vietnam Pro';
-    color: #000;
-    text-align: center;
-    font-size: 30px;
-    font-weight: 600;
-}
         .resposta,
         .resposta-correta,
         .resposta-incorreta {
@@ -559,7 +552,7 @@ $imagensAleatorias = array(
         iniciarCronometro();
         atualizarBotoes();
         if (perguntaAtual < perguntasTotais) {
-            window.location.href = `quiz-classico.php?q=${perguntaAtual}`;
+            window.location.href = `quiz-classicoHistoria.php?q=${perguntaAtual}`;
         }
     }
 

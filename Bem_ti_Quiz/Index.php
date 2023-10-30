@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -22,13 +20,99 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            display: none;
+        }
+
+        .modal-content {
+            font-family: 'Be Vietnam Pro';
+            font-size: 20px;
+            font-weight: bold;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #91FF75;
+            padding: 20px;
+            border-radius: 20px;
+            z-index: 1000;
+            box-shadow: 8px 8px 4px 564px rgba(0, 0, 0, 0.50), 0px 8px 4px 0px #6CBD58;
+
+        }
+
+
+        .close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .btn-regras {
+            background: #FF4B4B;
+            box-shadow: 0px 5px 0px 0px #FF1717, 5px 5px 4px 0px rgba(0, 0, 0, 0.25);
+            color: #FFF;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-regras:hover {
+            background: #FF1717;
+        }
+        .btn-logout {
+    flex: 1;
+    margin: 10px;
+    min-width: 0;
+    width: 70px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #FFF;
+    text-align: center;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    border-radius: 36px;
+    background: #FF4B4B;
+    box-shadow: 0px 5px 0px 0px #FF1717, 5px 5px 4px 0px rgba(0, 0, 0, 0.25);
+}
     </style>
 </head>
 
 <body>
+    <div class="position-relative">
+        <div class="position-absolute top-0 end-0">
+            <button id="btnRegras" class="btn-regras">
+    <img src="Css/regras.png"   alt="regras"  width="60" height="50">
+    
+    <p>Regras</p>
+</button>
+
+        </div>
+    </div>
+
+
     <div class="d-flex align-items-start">
         <img src="Css/MDJ.png" class="rounded float-left" alt="...">
     </div>
+
     <div class="container-md">
         <?php
         session_start();
@@ -42,6 +126,10 @@
         ?>
     </div>
     <br>
+
+
+
+
     <div class="container-lg">
         <div class="row">
             <div class="col">
@@ -137,22 +225,63 @@
     <button id="btnJogar" class="btn btn-primary" disabled>Jogar</button>
     <br>
     <br>
+    <div id="regrasModal" class="modal modal-regras">
+        <div class="modal-content">
+            <span class="close" onclick="fecharModal()">&times;</span>
+            <h2>Regras do Jogo</h2>
+
+            <h3>Modo Clássico:</h3>
+            <ul>
+                <li>O jogador terá 20 segundos para responder cada pergunta.</li>
+                <li>Marcar alternativas erradas resultará em penalização de pontos.</li>
+                <li>Se o tempo de 20 segundos se esgotar, a resposta será considerada errada, e o jogador deve
+                    prosseguir para a próxima pergunta.</li>
+            </ul>
+
+            <h3>Modo Tempo:</h3>
+            <ul>
+                <li>O jogador terá 1 minuto para responder a todo o quiz.</li>
+                <li>Se o tempo se esgotar, o jogador falhará e será redirecionado para a tela inicial.</li>
+            </ul>
+
+            <h3>Modo Zen:</h3>
+            <ul>
+                <li>O Modo Zen é uma opção de treinamento.</li>
+                <li>Não haverá penalização de pontos ou marcação de tempo.</li>
+                <li>Os jogadores podem usá-lo para estudos sem pressão de tempo.</li>
+            </ul>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            $(".custom-checkbox").change(verificarCheckboxes);
-            $(".custom-checkbox2").change(verificarCheckboxes);
+            $(".custom-checkbox").change(function () {
+                $(".custom-checkbox").not(this).prop("checked", false);
+                verificarCheckboxes();
+            });
+
+            $(".custom-checkbox2").change(function () {
+                $(".custom-checkbox2").not(this).prop("checked", false);
+                verificarCheckboxes();
+            });
         });
 
         function verificarCheckboxes() {
             const modoZenSelecionado = $("#modozen").is(":checked");
-            const tudoSelecionado = $("#tudo").is(":checked");
+            const tempoSelecionado = $("#tempo").is(":checked");
+            const classicoSelecionado = $("#classico").is(":checked");
             const faunaSelecionado = $("#fauna").is(":checked");
             const floraSelecionado = $("#flora").is(":checked");
             const historiaSelecionado = $("#historia").is(":checked");
             const biomaSelecionado = $("#bioma").is(":checked");
+            const tudoSelecionado = $("#tudo").is(":checked");
 
-            if (modoZenSelecionado && (tudoSelecionado || faunaSelecionado || floraSelecionado || historiaSelecionado || biomaSelecionado)) {
+            if (tudoSelecionado) {
+                $("#btnJogar").prop("disabled", false);
+            } else if (
+                (modoZenSelecionado || tempoSelecionado || classicoSelecionado) &&
+                (faunaSelecionado || floraSelecionado || historiaSelecionado || biomaSelecionado)
+            ) {
                 $("#btnJogar").prop("disabled", false);
             } else {
                 $("#btnJogar").prop("disabled", true);
@@ -160,26 +289,77 @@
         }
 
         $("#btnJogar").click(function () {
+            const classicoSelecionado = $("#classico").is(":checked");
+            const tempoSelecionado = $("#tempo").is(":checked");
             const modoZenSelecionado = $("#modozen").is(":checked");
-            const tudoSelecionado = $("#tudo").is(":checked");
             const faunaSelecionado = $("#fauna").is(":checked");
             const floraSelecionado = $("#flora").is(":checked");
             const historiaSelecionado = $("#historia").is(":checked");
             const biomaSelecionado = $("#bioma").is(":checked");
 
-            if (modoZenSelecionado && tudoSelecionado) {
-                window.location.href = "quiz-zen.php";
-            } else if (modoZenSelecionado && faunaSelecionado) {
-                window.location.href = "quiz-zenFauna.php";
-            } else if (modoZenSelecionado && floraSelecionado) {
-                window.location.href = "quiz-zenFlora.php";
-            } else if (modoZenSelecionado && historiaSelecionado) {
-                window.location.href = "quiz-zenHistoria.php";
-            } else if (modoZenSelecionado && biomaSelecionado) {
-                window.location.href = "quiz-zenBioma.php";
+            if (classicoSelecionado) {
+                if (faunaSelecionado) {
+                    window.location.href = "quiz-classicoFauna.php";
+                } else if (floraSelecionado) {
+                    window.location.href = "quiz-classicoFlora.php";
+                } else if (historiaSelecionado) {
+                    window.location.href = "quiz-classicoHistoria.php";
+                } else if (biomaSelecionado) {
+                    window.location.href = "quiz-classicoBioma.php";
+                } else {
+                    window.location.href = "quiz-classico.php";
+                }
+            } else if (tempoSelecionado) {
+                if (faunaSelecionado) {
+                    window.location.href = "quiz-tempoFauna.php";
+                } else if (floraSelecionado) {
+                    window.location.href = "quiz-tempoFlora.php";
+                } else if (historiaSelecionado) {
+                    window.location.href = "quiz-tempoHistoria.php";
+                } else if (biomaSelecionado) {
+                    window.location.href = "quiz-tempoBioma.php";
+                } else {
+                    window.location.href = "quiz-tempo.php";
+                }
+            } else if (modoZenSelecionado) {
+                if (faunaSelecionado) {
+                    window.location.href = "quiz-zenFauna.php";
+                } else if (floraSelecionado) {
+                    window.location.href = "quiz-zenFlora.php";
+                } else if (historiaSelecionado) {
+                    window.location.href = "quiz-zenHistoria.php";
+                } else if (biomaSelecionado) {
+                    window.location.href = "quiz-zenBioma.php";
+                } else {
+                    window.location.href = "quiz-zen.php";
+                }
             }
         });
+
+
+        document.getElementById("btnRegras").addEventListener("click", function () {
+            var modal = document.getElementById("regrasModal");
+            modal.style.display = "block";
+        });
+
+        document.querySelector(".close").addEventListener("click", function () {
+            var modal = document.getElementById("regrasModal");
+            modal.style.display = "none";
+        });
+
+        window.addEventListener("click", function (event) {
+            var modal = document.getElementById("regrasModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        });
+
+        function fecharModal() {
+            var modal = document.getElementById("regrasModal");
+            modal.style.display = "none";
+        }
     </script>
+
 
 </body>
 

@@ -48,6 +48,7 @@ img.increase-size {
 }
 
 
+
 .container-fluid {
     background-color: #fff;
     border-radius: 50px 0px 0px 50px;
@@ -141,7 +142,7 @@ input {
 /* Home */
 
 .container-md {
-    max-width: 18%;
+    max-width: 30%;
     margin-top: 20px;
     padding: 15px;
     background-color: #f8f9fa;
@@ -169,12 +170,25 @@ input {
 
 
 .btn-logout {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-decoration: none;
+    flex: 1;
+    margin: 10px;
+    min-width: 0;
+    width: 100px;
+    height: 55px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #FFF;
+    text-align: center;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    border-radius: 36px;
+    background: #FF4B4B;
+    box-shadow: 0px 5px 0px 0px #FF1717, 5px 5px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .btn-logout:hover {
@@ -311,7 +325,7 @@ input {
     font-family: 'Be Vietnam Pro';
     color: #000;
     text-align: center;
-    font-size: 41px;
+    font-size: 30px;
     font-weight: 600;
 }
 

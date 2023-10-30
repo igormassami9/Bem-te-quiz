@@ -1,6 +1,9 @@
 <?php
-include('db_functions_2.php');
+include('db_functions.php');
+
 session_start();
+
+
 
 if (isset($_GET['sair'])) {
     unset($_SESSION['random_question_ids']);
@@ -9,8 +12,9 @@ if (isset($_GET['sair'])) {
 }
 
 if (!isset($_SESSION['random_question_ids'])) {
-    $_SESSION['random_question_ids'] = getRandomQuestionIds(10);
+    $_SESSION['random_question_ids'] = getRandomHistoriaQuestionIds(10);
 }
+
 
 $randomQuestionIds = $_SESSION['random_question_ids'];
 
@@ -24,7 +28,7 @@ foreach ($randomQuestionIds as $questionId) {
 }
 
 if (empty($questions)) {
-    echo "O jogo está com problemas técnicos no momento. Por favor, tente novamente mais tarde.";
+    echo "Nenhuma pergunta encontrada.";
     exit();
 }
 
@@ -32,7 +36,7 @@ $currentQuestionIndex = isset($_GET['q']) ? (int) $_GET['q'] : 0;
 $totalQuestions = count($questions);
 
 if ($currentQuestionIndex >= $totalQuestions) {
-    header("Location: Placar-classico.php");
+    header("Location: Placar-tempo.php");
     exit();
 }
 
@@ -44,6 +48,8 @@ $imagensAleatorias = array(
     'Css/Curiosidade_02.jpg',
     'Css/Curiosidade_03.jpg'
 );
+
+
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +59,7 @@ $imagensAleatorias = array(
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modo Zen - Pergunta
+    <title>Modo Tempo - Pergunta
         <?php echo $currentQuestionIndex + 1; ?>
     </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -80,13 +86,6 @@ $imagensAleatorias = array(
             align-items: center;
         }
 
-        .texto-rodape {
-    font-family: 'Be Vietnam Pro';
-    color: #000;
-    text-align: center;
-    font-size: 30px;
-    font-weight: 600;
-}
         .resposta,
         .resposta-correta,
         .resposta-incorreta {
@@ -291,50 +290,6 @@ $imagensAleatorias = array(
             margin: 10px auto;
             display: block;
         }
-
-        #tempo-esgotado-alert {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 10px;
-            background-color: #FF4B4B;
-            color: #FFF;
-            border-radius: 10px;
-            font-family: 'Be Vietnam Pro', sans-serif;
-            font-size: 20px;
-            font-weight: bold;
-            z-index: 1000;
-            box-shadow: 0px 8px 0px 0px #FF1717, 8px 8px 4px 1000px rgba(0, 0, 0, 0.50);
-        }
-
-
-        #tempo-esgotado-alert img {
-            max-width: 300px;
-            max-height: 200px;
-        }
-
-        #fechar-alert {
-            border: 0px;
-            flex: 1;
-            margin: 5px;
-            min-width: 0;
-            height: auto;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #303030;
-            text-align: center;
-            font-family: 'Be Vietnam Pro', sans-serif;
-            font-size: 20px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
-            border-radius: 36px;
-            background: #FFF;
-            box-shadow: 0px 8px 0px 0px #CDCDCD, 5px 12px 4px 0px rgba(0, 0, 0, 0.25);
-        }
     </style>
 </head>
 
@@ -344,7 +299,7 @@ $imagensAleatorias = array(
     </div>
 
     <div class="rodape">
-        <h1 class="texto-rodape">Modo Clássico</h1>
+        <h1 class="texto-rodape">Modo Tempo</h1>
     </div>
 
     <div class="position-absolute top-0 start-50 translate-middle-x">
@@ -358,7 +313,8 @@ $imagensAleatorias = array(
                 </div>
             </div>
             <div class="inside" id="inside">
-                <div class="cronometro" id="cronometro"> Tempo Restante:<span id="tempo-restante">20 segundos</span>
+                <div class="cronometro" id="cronometro">
+                <div id="cronometro">01:00</div>
                 </div>
             </div>
         </div>
@@ -412,115 +368,42 @@ $imagensAleatorias = array(
         <source src="CSS/incorrect.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="tempo-esgotado-alert" class="alert alert-danger" role="alert" style="display: none;">
-        <p>Tempo Esgotado!</p>
-        <img src="css/Tempo_esgotado.gif" alt="Tempo Esgotado GIF">
-        <br>
-        <button id="fechar-alert">Fechar</button>
-    </div>
-
-
     <script>
     const proximoBtn = document.getElementById('proximo-btn');
     const resultadoBtn = document.getElementById('resultado-btn');
     const respostas = document.querySelectorAll('.resposta');
     let perguntasRespondidas = 0;
-    let perguntasCorretas = 0;
-    let perguntasErradas = 0;
     const perguntasTotais = <?php echo count($questions); ?>;
     let perguntaAtual = <?php echo $currentQuestionIndex; ?>;
     let respostaSelecionada = false;
-    let tempoRestante = 20;
-    let tempoEsgotadoAlert = document.getElementById("tempo-esgotado-alert");
-    let tempoRestanteSpan = document.getElementById("tempo-restante");
-    let intervalCronometro;
 
     proximoBtn.disabled = true;
 
-    function exibirTempoEsgotadoAlert() {
-        tempoEsgotadoAlert.style.display = "block";
-        tempoEsgotadoAlert.classList.add("animate__animated", "animate__flash");
-        respostas.forEach(resposta => {
-            resposta.style.pointerEvents = 'none';
-            const correta = resposta.getAttribute('data-correta');
-            if (correta === "1") {
-                resposta.classList.add('resposta-incorreta');
-            }
-        });
-        proximoBtn.disabled = false;
-    }
-
-    const fecharAlertButton = document.getElementById("fechar-alert");
-    fecharAlertButton.addEventListener('click', () => {
-        tempoEsgotadoAlert.style.display = "none";
-    });
-
-    function iniciarCronometro() {
-        tempoRestante = 20;
-        clearInterval(intervalCronometro);
-        atualizarTempoRestante();
-        intervalCronometro = setInterval(() => {
-            tempoRestante--;
-            atualizarTempoRestante();
-            if (tempoRestante === 0) {
-                clearInterval(intervalCronometro);
-                exibirTempoEsgotadoAlert();
-            }
-        }, 1000);
-    }
-
-    function atualizarTempoRestante() {
-        const minutos = Math.floor(tempoRestante / 60);
-        const segundos = tempoRestante % 60;
-        const tempoFormatado = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-        tempoRestanteSpan.textContent = tempoFormatado;
-    }
-
     respostas.forEach(resposta => {
         resposta.addEventListener('click', () => {
-            verificarResposta(resposta);
+            if (!respostaSelecionada) {
+                const correta = resposta.getAttribute('data-correta');
+                if (correta === "1") {
+                    resposta.classList.add('resposta-correta');
+                    const somAcerto = document.getElementById('som-acerto');
+                    somAcerto.play();
+                    const curiosidadeAlert = document.getElementById('curiosidade-alert');
+                    curiosidadeAlert.style.display = 'block';
+                    incrementarContadorCorretas();
+                    var overlay = document.getElementById("overlay");
+                    overlay.style.display = 'block';
+                } else {
+                    resposta.classList.add('resposta-incorreta');
+                    const somErro = document.getElementById('som-erro');
+                    somErro.play();
+                }
+                resposta.style.pointerEvents = 'none';
+                perguntasRespondidas++;
+                respostaSelecionada = true;
+                proximoBtn.disabled = false;
+            }
         });
     });
-
-    function verificarResposta(resposta) {
-        if (!respostaSelecionada) {
-            const correta = resposta.getAttribute('data-correta');
-            clearInterval(intervalCronometro);
-
-            if (correta === "1") {
-                resposta.classList.add('resposta-correta');
-                perguntasCorretas++;
-                const somAcerto = document.getElementById('som-acerto');
-                somAcerto.play();
-                const curiosidadeAlert = document.getElementById('curiosidade-alert');
-                curiosidadeAlert.style.display = 'block';
-                incrementarContadorCorretas();
-                var overlay = document.getElementById("overlay");
-                overlay.style.display = 'block';
-            } else {
-                resposta.classList.add('resposta-incorreta');
-                const somErro = document.getElementById('som-erro');
-                somErro.play();
-                incrementarContadorErradas(); 
-            }
-
-            resposta.style.pointerEvents = 'none';
-            respostaSelecionada = true;
-            proximoBtn.disabled = false;
-            perguntasRespondidas++;
-        }
-    }
-
-    function incrementarContadorErradas() {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'atualizar_contador.php', true); 
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-            }
-        };
-        xhr.send('incrementar_erradas=1');
-    }
 
     function escolherImagemAleatoria() {
         const indiceAleatorio = Math.floor(Math.random() * <?php echo count($imagensAleatorias); ?>);
@@ -554,17 +437,56 @@ $imagensAleatorias = array(
         xhr.send('incrementar=1');
     }
 
+    let minutos = 1;
+    let segundos = 0;
+
+    function atualizarCronometro() {
+        const cronometroElement = document.getElementById('cronometro');
+        cronometroElement.textContent = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+    }
+
+    function iniciarCronometro() {
+        atualizarCronometro();
+
+        const intervalId = setInterval(function () {
+            if (minutos === 0 && segundos === 0) {
+                clearInterval(intervalId);
+                window.location.href = 'Falhou.php';
+            } else {
+                if (segundos === 0) {
+                    minutos--;
+                    segundos = 59;
+                } else {
+                    segundos--;
+                }
+                atualizarCronometro();
+            }
+        }, 1000);
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const tempoRestanteParam = urlParams.get('tempo');
+
+    if (tempoRestanteParam) {
+        const [min, sec] = tempoRestanteParam.split(':');
+        minutos = parseInt(min, 10);
+        segundos = parseInt(sec, 10);
+    }
+
+    iniciarCronometro();
+
     function proximaPergunta() {
         perguntaAtual++;
-        iniciarCronometro();
         atualizarBotoes();
         if (perguntaAtual < perguntasTotais) {
-            window.location.href = `quiz-classico.php?q=${perguntaAtual}`;
+            const tempoRestante = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+            window.location.href = `quiz-tempoHistoria.php?q=${perguntaAtual}&tempo=${tempoRestante}`;
         }
     }
 
     function redirectToPlacar() {
-        window.location.href = 'Placar-classico.php';
+        const tempoRestante = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+        window.location.href = `Placar-tempo.php?tempo=${tempoRestante}`;
     }
 
     function atualizarBotoes() {
@@ -586,10 +508,8 @@ $imagensAleatorias = array(
             window.location.href = "index.php";
         }
     }
+</script>
 
-    iniciarCronometro();
-
-    </script>
 </body>
 
 </html>

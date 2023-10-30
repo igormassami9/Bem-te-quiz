@@ -315,7 +315,7 @@ $imagensAleatorias = array(
                 <div class="cronometro" id="cronometro">00:00</div>
             </div>
         </div>
-    </div <div class="container centered-container">
+    </div class="container centered-container">
     <div id="quiz-container">
         <div class='d-flex justify-content-center'>
             <div class='quadro-quiz justify-content-center'>
