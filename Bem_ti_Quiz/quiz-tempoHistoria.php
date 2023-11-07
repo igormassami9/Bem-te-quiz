@@ -1,5 +1,5 @@
 <?php
-include('db_functions_2.php');
+include('db_functions.php');
 
 require_once('verificacao.php'); 
 
@@ -17,8 +17,9 @@ if (isset($_GET['sair'])) {
 }
 
 if (!isset($_SESSION['random_question_ids'])) {
-    $_SESSION['random_question_ids'] = getRandomQuestionIds(10);
+    $_SESSION['random_question_ids'] = getRandomHistoriaQuestionIds(10);
 }
+
 
 $randomQuestionIds = $_SESSION['random_question_ids'];
 
@@ -52,6 +53,7 @@ $imagensAleatorias = array(
     'css/Curiosidade_02.jpg',
     'css/Curiosidade_03.jpg'
 );
+
 
 
 ?>
@@ -264,11 +266,11 @@ $imagensAleatorias = array(
         .cronometro {
             font-size: 16px;
         }
-
+        
         .close-button:hover {
          background-color: #f0f0f0;
         }
-        
+
         .close-button {
             border: 0px;
             flex: 1;
@@ -401,7 +403,6 @@ $imagensAleatorias = array(
         localStorage.setItem('audioTime', backgroundAudio.currentTime);
     }, 1000);
 
-
     proximoBtn.disabled = true;
 
     respostas.forEach(resposta => {
@@ -505,7 +506,7 @@ $imagensAleatorias = array(
         atualizarBotoes();
         if (perguntaAtual < perguntasTotais) {
             const tempoRestante = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-            window.location.href = `quiz-tempo.php?q=${perguntaAtual}&tempo=${tempoRestante}`;
+            window.location.href = `quiz-tempoHistoria.php?q=${perguntaAtual}&tempo=${tempoRestante}`;
         }
     }
 

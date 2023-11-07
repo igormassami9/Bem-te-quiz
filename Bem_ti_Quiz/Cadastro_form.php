@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $conn = new mysqli("localhost", "root", "", "Bemtequiz");
+    $conn = new mysqli("localhost", "id21479018_admim24", "Bemtequiz123@", "id21479018_bemtequiz");
 
     if ($conn->connect_error) {
         die("Erro na conexão: " . $conn->connect_error);
@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($conn->query($sql) === TRUE) {
         session_start();
         $_SESSION["username"] = $username;
-        header("Location: Index.php");
+        header("Location: index.php");
         exit();
     } else {
         echo "Erro ao cadastrar: " . $conn->error;

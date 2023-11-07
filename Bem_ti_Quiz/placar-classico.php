@@ -1,20 +1,38 @@
 <?php
-require_once('verificacao.php'); 
+require_once('verificacao.php');
 
 if (!verificarLogin()) {
     header("Location: index.php");
     exit();
 }
 
+include 'conexao.php';
+
+$conn = include 'conexao.php';
+
+if ($conn->connect_error) {
+    die("Conexão com o banco de dados falhou: " . $conn->connect_error);
+}
+
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
 if (isset($_POST['menu'])) {
     $_SESSION['contador_corretas'] = 0;
+    $_SESSION['contador_erradas'] = 0;
     header("Location: home.php");
     exit();
 }
 
 if (isset($_SESSION['contador_corretas'])) {
     $contadorCorretas = $_SESSION['contador_corretas'];
-    $pontuacao = $contadorCorretas * 10;
+
+    if (isset($_SESSION['contador_erradas'])) {
+        $contadorErradas = $_SESSION['contador_erradas'];
+    } else {
+        $contadorErradas = 0;
+    }
+
+    $pontuacao_partida_atual = ($contadorCorretas * 10) - ($contadorErradas * 5);
 
     $mensagensIncentivo = [
         "Oh, você acertou uma pergunta! Vamos melhorar!",
@@ -32,11 +50,60 @@ if (isset($_SESSION['contador_corretas'])) {
     $mensagemIncentivo = isset($mensagensIncentivo[$contadorCorretas - 1]) ? $mensagensIncentivo[$contadorCorretas - 1] : "Bom trabalho!";
 } else {
     $contadorCorretas = 0;
-    $pontuacao = 0;
+    $contadorErradas = 0;
+    $pontuacao_partida_atual = 0;
     $mensagemIncentivo = "Sem respostas corretas ainda. Continue tentando!";
 }
-?>
 
+if ($user_id !== null) {
+    $modo_jogo = "Clássico";
+    
+    $sql = "SELECT pontuacao FROM pontuacoes WHERE user_id = ? AND modo_jogo = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("is", $user_id, $modo_jogo);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $pontuacao_anterior = $row['pontuacao'];
+    } else {
+        $pontuacao_anterior = 0;
+    }
+
+    $stmt->close();
+
+    $pontuacao_total = $pontuacao_anterior + $pontuacao_partida_atual;
+
+    $sql = "SELECT user_id FROM pontuacoes WHERE user_id = ? AND modo_jogo = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("is", $user_id, $modo_jogo);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $sql = "UPDATE pontuacoes SET pontuacao = ? WHERE user_id = ? AND modo_jogo = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iis", $pontuacao_total, $user_id, $modo_jogo);
+    } else {
+        $sql = "INSERT INTO pontuacoes (user_id, modo_jogo, pontuacao) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iss", $user_id, $modo_jogo, $pontuacao_total);
+    }
+
+    if ($stmt->execute()) {
+        // Pontuação atualizada ou inserida com sucesso
+    } else {
+        echo "Erro ao salvar a pontuação: " . $conn->error;
+    }
+
+    $stmt->close();
+} else {
+    echo "Erro: user_id não definido na sessão.";
+}
+
+$conn->close();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -201,18 +268,13 @@ if (isset($_SESSION['contador_corretas'])) {
                     </div>
                 </div>
                 <div class="col-6 col-md-4">
-                    <div class="quadrado fw-bold">
-                        <p>Tempo</p>
-                        <div class="informacao fw-bold">
-                            <p>00:00</p>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="col-6 col-md-4">
                     <div class="quadrado fw-bold">
                         <p>Pontuação</p>
                         <div class="informacao fw-bold">
-                            <p><?php echo $pontuacao; ?></p>
+                            <p><?php echo $pontuacao_partida_atual; ?></p>
                         </div>
                     </div>
                 </div>

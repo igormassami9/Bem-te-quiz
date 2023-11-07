@@ -10,13 +10,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
-    <link href="Css/estilo.css" rel="stylesheet" />
-    <title>Cadastro</title>
+    <link href="css/estilo.css" rel="stylesheet" />
+        <title>Cadastro</title>
 </head>
 
 <body>
     <figure class="figureBK">
-        <img src="Css/Arvore.png" class="" alt="...">
+        <img src="css/Arvore.png" class="" alt="...">
     </figure>
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="container-sm">

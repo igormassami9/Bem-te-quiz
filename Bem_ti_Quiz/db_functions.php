@@ -2,9 +2,9 @@
 function connectToDatabase()
 {
     $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "bemtequiz";
+    $username = "id21479018_admim24";
+    $password = "Bemtequiz123@";
+    $database = "id21479018_bemtequiz";
 
     $conn = new mysqli($servername, $username, $password, $database);
 
@@ -19,6 +19,8 @@ function closeDatabaseConnection($conn)
 {
     $conn->close();
 }
+
+
 
 function getQuestionsByCategory($categoryId)
 {

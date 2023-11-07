@@ -12,31 +12,7 @@ if (isset($_POST['menu'])) {
     exit();
 }
 
-if (isset($_SESSION['contador_corretas'])) {
-    $contadorCorretas = $_SESSION['contador_corretas'];
-    $pontuacao = $contadorCorretas * 10;
-
-    $mensagensIncentivo = [
-        "Oh, você acertou uma pergunta! Vamos melhorar!",
-        "Duas respostas certas! Está indo bem!",
-        "Você acertou 3 perguntas. Continue assim!",
-        "Impressionante! 4 acertos. Você está indo muito bem!",
-        "Cinco acertos! Você está no caminho certo!",
-        "Seis respostas corretas! Está ficando ótimo!",
-        "Uau! Você acertou 7 perguntas corretamente! Continue assim!",
-        "Oito respostas certas. Você é um mestre nisso!",
-        "Nove acertos! Você está quase perfeito!",
-        "Incrível! 10 de 10! Você é um gênio!"
-    ];
-
-    $mensagemIncentivo = isset($mensagensIncentivo[$contadorCorretas - 1]) ? $mensagensIncentivo[$contadorCorretas - 1] : "Bom trabalho!";
-} else {
-    $contadorCorretas = 0;
-    $pontuacao = 0;
-    $mensagemIncentivo = "Sem respostas corretas ainda. Continue tentando!";
-}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +21,7 @@ if (isset($_SESSION['contador_corretas'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Placar</title>
+    <title>Você Falhou</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href="css/estilo.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -109,7 +85,7 @@ if (isset($_SESSION['contador_corretas'])) {
 
     .incentivo {
         margin-top: 20%;
-        font-size: 25px; 
+        font-size: 20px; 
     }
 
     .text-msg{
@@ -165,17 +141,23 @@ if (isset($_SESSION['contador_corretas'])) {
     box-shadow: 0px 8px 0px #CDCDCD;
     border-radius: 30px;
     }
+
+    .Relogio{
+            max-width: 300px;
+            max-height: 200px;
+            top:1%;
+        }
 </style>
 
 <body>
-    <audio id="som-aparecer" autoplay style="display: none;">
-        <source src="css/concluido.mp3" type="audio/mpeg">
-    </audio>
+    
 
     <div class="rodape-resultado">
-        <h1 class="texto-rodape">Resultado</h1>
+        <h1 class="texto-rodape">Falhou</h1>
     </div>
-
+    <audio autoplay>
+        <source src="css/falha.mp3" type="audio/mpeg">
+    </audio>
     <div class="position-absolute top-50 start-50 translate-middle">
         <div class="container container-placar">
             <div class="position-absolute top-0 start-50 translate-middle-x">
@@ -187,34 +169,11 @@ if (isset($_SESSION['contador_corretas'])) {
                 <div class="col-12 col-md-9">
                 <div class="position-absolute top-0 start-50 translate-middle-x">
                     <div class="incentivo text-center"> 
-                        <p class="text-msg  fw-bold"><?php echo $mensagemIncentivo; ?></p>
+                        <p class="text-msg  fw-bold">Você não terminou o quiz a tempo!</p>
+                        <p class="text-msg  fw-bold">Que pena</p>
+                        <img class="Relogio" src="css/tempo_esgotado.gif" alt="Tempo Esgotado GIF">
                     </div>
                 </div>
-                </div>
-                
-                <div class="col-6 col-md-4">
-                    <div class="quadrado fw-bold">
-                        <p>Acertos</p>
-                        <div class="informacao fw-bold">
-                            <p><?php echo $contadorCorretas; ?>/10</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4">
-                    <div class="quadrado fw-bold">
-                        <p>Tempo</p>
-                        <div class="informacao fw-bold">
-                            <p>00:00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4">
-                    <div class="quadrado fw-bold">
-                        <p>Pontuação</p>
-                        <div class="informacao fw-bold">
-                            <p><?php echo $pontuacao; ?></p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
