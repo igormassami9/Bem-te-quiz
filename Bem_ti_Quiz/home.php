@@ -323,26 +323,21 @@ if (isset($_SESSION["user_id"])) {
              <button class="accordion">Modo Clássico</button>
     <div class="panel">
         <p>
-            O jogador terá 20 segundos para responder cada pergunta. Marcar alternativas erradas resultará em penalização
-            de pontos.
-            Errar muitas questões acarretará em penalidades diretamente no ranking. Se o tempo de 20 segundos se
-            esgotar, a resposta será considerada errada, e o jogador deve prosseguir para a próxima pergunta.
+            O jogador terá um limite de 20 segundos para responder cada pergunta. A seleção de alternativas incorretas acarretará em penalização de pontos. O acúmulo de erros pode resultar em penalidades adicionais diretamente no ranking. Caso o tempo de 20 segundos se esgote, a resposta será considerada incorreta, e o jogador deverá prosseguir para a próxima pergunta.
         </p>
     </div>
 
     <button class="accordion">Modo Tempo</button>
     <div class="panel">
         <p>
-            O jogador terá 1 minuto para responder a todo o quiz. Se o tempo se esgotar, o jogador falhará e será
-            redirecionado para a tela inicial.
+            O jogador dispõe de um período de 1 minuto para completar o quiz em sua totalidade. Caso o tempo permitido se esgote antes que todas as perguntas sejam respondidas, considerar-se-á que o jogador falhou e será automaticamente redirecionado para a tela inicial do jogo.
         </p>
     </div>
 
     <button class="accordion">Modo Zen</button>
     <div class="panel">
         <p>
-            O Modo Zen é uma opção de treinamento. Não haverá penalização de pontos ou marcação de tempo. Os jogadores
-            podem usá-lo para estudos sem pressão de tempo.
+            O Modo Zen oferece uma alternativa de treinamento mais relaxada. Nesse modo, os jogadores desfrutam de uma experiência livre de penalizações de pontos e da restrição de tempo. Essa abordagem proporciona um ambiente ideal para estudos mais detalhados e aprofundados, permitindo que os participantes explorem as questões com calma, sem a pressão do cronômetro.
         </p>
     </div>
         </div>
