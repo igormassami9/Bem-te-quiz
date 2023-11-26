@@ -1,7 +1,7 @@
 <?php
 include('db_connection.php');
 
-if (isset($_GET['id_pergunta'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id_pergunta'])) {
     $id_pergunta = $_GET['id_pergunta'];
 
     $sql = "SELECT * FROM perguntas WHERE id = $id_pergunta";
@@ -23,6 +23,7 @@ if (isset($_GET['id_pergunta'])) {
             <title>Confirmar Exclusão - BemTeQuiz</title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
             <link rel="stylesheet" type="text/css" href="style.css">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         </head>
         <body>
             <div class="container mt-5">
@@ -41,8 +42,9 @@ if (isset($_GET['id_pergunta'])) {
                 ?>
                 <form action="delete_question.php" method="post">
                     <input type="hidden" name="id_pergunta" value="<?php echo $id_pergunta; ?>">
-                    <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+                    <button type="submit" class="btn btn-danger text-white">Confirmar Exclusão</button>
                 </form>
+                <br>
                 <a href="index_admin.php" class="btn btn-secondary">Cancelar</a>
             </div>
         </body>
