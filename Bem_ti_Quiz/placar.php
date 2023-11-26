@@ -109,12 +109,12 @@ if (isset($_SESSION['contador_corretas'])) {
 
     .incentivo {
         margin-top: 20%;
-        font-size: 25px; 
+        font-size: 20px; 
     }
 
     .text-msg{
         text-align: center;
-        margin-left: 40px;
+        margin-left: 20px;
     }
 
     .quadrado {
@@ -176,7 +176,7 @@ if (isset($_SESSION['contador_corretas'])) {
         <h1 class="texto-rodape">Resultado</h1>
     </div>
 
-    <div class="position-absolute top-50 start-50 translate-middle">
+    <div class="position-absolute top-50 start-50 translate-middle" style="position: absolute !important;">
         <div class="container container-placar">
             <div class="position-absolute top-0 start-50 translate-middle-x">
                 <div class="rodape-placar">
@@ -184,7 +184,7 @@ if (isset($_SESSION['contador_corretas'])) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-md-9">
+                <div class="col-12 col-md-9" style="width: 100% !important;">
                 <div class="position-absolute top-0 start-50 translate-middle-x">
                     <div class="incentivo text-center"> 
                         <p class="text-msg  fw-bold"><?php echo $mensagemIncentivo; ?></p>

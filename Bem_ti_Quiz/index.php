@@ -11,12 +11,12 @@
     <link href="css/estilo.css" rel="stylesheet" />    <title> Sejam bem-vindo ao Bem-te-quiz</title>
 </head>
 <body>
-<img src="css/Capricho.png" class="rounded float-start" alt="...">
-<img src="css/Logo.png" class="rounded float-start increase-size" alt="...">
+<img src="css/Capricho.png" id="capricho" class="rounded float-start" alt="...">
+<img src="css/Logo.png" id="logo-login" class="rounded float-start increase-size" alt="...">
 <div class="position-absolute top-0 end-0">
-    <div class="container-fluid">
+    <div class="container-fluid displaycenter">
     <div class="mb-3">
-    <label for="email" class="form-label"><h4>Efetuar Login</h4></label>
+    <span for="email" class="form-label"><h4>Efetuar Login</h4></span>
     </div>
     <br>
     <div class="TextAP">

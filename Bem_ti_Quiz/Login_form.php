@@ -3,7 +3,7 @@ require_once('verificacao.php');
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   $conn = new mysqli("localhost", "id21479018_admim24", "Bemtequiz123@", "id21479018_bemtequiz");
+   $conn = new mysqli("127.0.0.1:3306", "u383961694_admin24", "Bemtequiz123@", "u383961694_bemtequiz");
 
     
     if ($conn->connect_error) {

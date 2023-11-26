@@ -409,6 +409,11 @@ $imagensAleatorias = array(
     <audio id="som-acerto">
         <source src="css/correct.mp3" type="audio/mpeg">
     </audio>
+    
+    <audio id="som-erro">
+    <source src="caminho/do/seu/som-erro.mp3" type="audio/mpeg">
+    </audio>
+
 
     <audio id="backgroundAudio" loop volume="0.1">
     <source src="css/quiz_loop_theme.mp3" type="audio/mpeg">

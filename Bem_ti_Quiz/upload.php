@@ -1,5 +1,4 @@
 <?php
-// Inicie a sessão
 session_start();
 
 if (isset($_SESSION["user_id"])) {
@@ -65,7 +64,7 @@ if (isset($_SESSION["user_id"])) {
                 if ($insert_stmt->execute()) {
                     // Upload da imagem de perfil bem-sucedido!
                     header("Location: home.php");
-                    exit; // Certifique-se de usar exit após a função header
+                    exit;
                 } else {
                     echo "Falha ao atualizar o banco de dados: " . $insert_stmt->error;
                 }

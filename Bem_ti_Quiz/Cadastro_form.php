@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $conn = new mysqli("localhost", "id21479018_admim24", "Bemtequiz123@", "id21479018_bemtequiz");
+   $conn = new mysqli("127.0.0.1:3306", "u383961694_admin24", "Bemtequiz123@", "u383961694_bemtequiz");
 
     if ($conn->connect_error) {
         die("Erro na conexão: " . $conn->connect_error);

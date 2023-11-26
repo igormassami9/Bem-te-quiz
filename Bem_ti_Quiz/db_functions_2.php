@@ -1,9 +1,9 @@
 <?php
 function connectToDatabase() {
-   $servername = "localhost";
-    $username = "id21479018_admim24";
-    $password = "Bemtequiz123@";
-    $database = "id21479018_bemtequiz";
+   $servername = "127.0.0.1:3306";
+ $username = "u383961694_admin24";
+ $password = "Bemtequiz123@";
+ $database = "u383961694_bemtequiz";
 
     $conn = new mysqli($servername, $username, $password, $database);
 

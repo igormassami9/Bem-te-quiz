@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
-$modo_jogo = "Clássico"; // Modo de jogo padrão
+$modo_jogo = "Clássico"; 
 
 if ($conn) {
     $sql = "SELECT u.username, p.*, p.pontuacao, f.image_path FROM pontuacoes p
@@ -61,7 +61,7 @@ if ($conn) {
         }
 
         .rodape-placar {
-            position: absolute;
+            display: inline;
             width: 100%;
             max-width: 800px;
             top: 50%;
@@ -70,30 +70,35 @@ if ($conn) {
             text-align: center;
         }
 
-        .container-placar {
-            background: rgba(255, 255, 255, 0.88);
-            border: 2px solid #777;
-            border-radius: 20px;
-            box-shadow: 0 8px 0 0 #777, 4px 13px 4px 0 rgba(0, 0, 0, 0.25);
-            margin: 10px;
-            padding: 10px;
-        }
+   .container-placar {
+    background: rgba(255, 255, 255, 0.88);
+    border: 2px solid #777;
+    border-radius: 20px;
+    box-shadow: 0 8px 0 0 #777, 4px 13px 4px 0 rgba(0, 0, 0, 0.25);
+    margin: 10px auto; 
+    max-width: 800px; 
+    max-height: 400px; 
+    padding: 10px;
+    overflow-y: auto; 
+}
+
 
         .titulo-placar {
-            font-size: 200%;
+            font-size: 2rem;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin: 20px auto;
         }
 
         .nome-usuario {
-            font-size: 150%;
+            font-size: 50%;
             font-weight: bold;
             margin-bottom: 10px;
         }
 
         .table {
             margin-top: 20px;
-            font-size: 120%;
+            font-size: 1.1rem;
+            border-radius:25px;
         }
 
         .top3 {
@@ -148,12 +153,9 @@ if ($conn) {
     font-size: 20px;
     width: 200px; 
     height: 37px;
-    position: absolute;
-    bottom: 14px; 
-    left: 50%;
-    transform: translateX(-50%);
     box-shadow: 0px 8px 0px #CDCDCD;
     border-radius: 30px;
+    margin: 15px auto;
     }
     
     .botao-voltar:hover{
@@ -261,6 +263,7 @@ if ($conn) {
             </table>
         </div>
     </div>
+
 
 <button id="btnRanking" class="botao-voltar">
     <a href="home.php" style="text-decoration: none; color: inherit;">

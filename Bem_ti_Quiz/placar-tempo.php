@@ -87,6 +87,7 @@ $conn->close();
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -159,12 +160,12 @@ $conn->close();
 
     .incentivo {
         margin-top: 20%;
-        font-size: 25px;
+        font-size: 20px;
     }
 
     .text-msg {
         text-align: center;
-        margin-left: 40px;
+        margin-left: 20px;
     }
 
     .quadrado {

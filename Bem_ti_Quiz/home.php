@@ -70,6 +70,8 @@ if (isset($_SESSION["user_id"])) {
         font-size: 20px;
         font-weight: bold;
         position: fixed;
+        width: 90%;
+        max-width: 900px;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -175,7 +177,7 @@ if (isset($_SESSION["user_id"])) {
 
 <body>
    
-    <div class="position-absolute top-0 end-0">
+    <div class="botoes-home">
      <button id="btnRanking" class="btn-regras">
     <a href="ranking.php" style="text-decoration: none; color: inherit;">
         <img src="css/ranking.png" alt="ranking" width="60" height="50">
@@ -196,7 +198,7 @@ if (isset($_SESSION["user_id"])) {
     </div>
     
         <div class="d-flex align-items-start">
-            <img src="css/MDJ.png" class="rounded float-left" alt="...">
+            <img src="css/MDJ.png" class="label-home rounded float-left" alt="...">
         </div>
     
     <audio id="backgroundAudio" autoplay loop volume="0.1">
@@ -220,7 +222,7 @@ if (isset($_SESSION["user_id"])) {
 
     <div class="container-lg">
         <div class="row">
-            <div class="col">
+            <div class="col-home">
                 <input class="custom-checkbox" type="checkbox" id="classico" name="modo_de_jogo">
                 <label for="classico">
                     <div class="circle">
@@ -229,7 +231,7 @@ if (isset($_SESSION["user_id"])) {
                     </div>
                 </label>
             </div>
-            <div class="col">
+            <div class="col-home">
                 <input class="custom-checkbox" type="checkbox" id="tempo" name="modo_de_jogo">
                 <label for="tempo">
                     <div class="circle">
@@ -238,7 +240,7 @@ if (isset($_SESSION["user_id"])) {
                     </div>
                 </label>
             </div>
-            <div class="col">
+            <div class="col-home">
                 <input class="custom-checkbox" type="checkbox" id="modozen" name="modo_de_jogo">
                 <label for="modozen">
                     <div class="circle">
@@ -256,13 +258,13 @@ if (isset($_SESSION["user_id"])) {
     </div>
     <p></p>
     <br>
-    <div class="d-flex align-items-start">
-        <img src="css/CAT.png" class="rounded float-left" alt="...">
+    <div class="d-flex align-items-start ">
+        <img src="css/CAT.png" class="label-home rounded float-left" alt="...">
     </div>
     <br>
     <div class="container-lg">
         <div class="row">
-            <div class="col">
+            <div class="col-home">
                 <input class="custom-checkbox2" type="checkbox" id="fauna" name="tema">
                 <label for="fauna">
                     <div class="circle">
@@ -271,7 +273,7 @@ if (isset($_SESSION["user_id"])) {
                     </div>
                 </label>
             </div>
-            <div class="col">
+            <div class="col-home">
                 <input class="custom-checkbox2" type="checkbox" id="flora" name="tema">
                 <label for="flora">
                     <div class="circle">
@@ -280,7 +282,7 @@ if (isset($_SESSION["user_id"])) {
                     </div>
                 </label>
             </div>
-            <div class="col">
+            <div class="col-home">
                 <input class="custom-checkbox2" type="checkbox" id="historia" name="tema">
                 <label for="historia">
                     <div class="circle">
@@ -289,7 +291,7 @@ if (isset($_SESSION["user_id"])) {
                     </div>
                 </label>
             </div>
-            <div class="col">
+            <div class="col-home">
                 <input class="custom-checkbox2" type="checkbox" id="bioma" name="tema">
                 <label for="bioma">
                     <div class="circle">
@@ -298,7 +300,7 @@ if (isset($_SESSION["user_id"])) {
                     </div>
                 </label>
             </div>
-            <div class="col">
+            <div class="col-home">
                 <input class="custom-checkbox2" type="checkbox" id="tudo" name="nova_opc">
                 <label for="tudo">
                     <div class="circle">
@@ -318,26 +320,31 @@ if (isset($_SESSION["user_id"])) {
             <span class="close" onclick="fecharModal()">&times;</span>
             <h2>Regras do Jogo</h2>
 
-            <h3>Modo Clássico:</h3>
-            <ul>
-                <li>O jogador terá 20 segundos para responder cada pergunta.</li>
-                <li>Marcar alternativas erradas resultará em penalização de pontos.</li>
-                <li>Se o tempo de 20 segundos se esgotar, a resposta será considerada errada, e o jogador deve
-                    prosseguir para a próxima pergunta.</li>
-            </ul>
+             <button class="accordion">Modo Clássico</button>
+    <div class="panel">
+        <p>
+            O jogador terá 20 segundos para responder cada pergunta. Marcar alternativas erradas resultará em penalização
+            de pontos.
+            Errar muitas questões acarretará em penalidades diretamente no ranking. Se o tempo de 20 segundos se
+            esgotar, a resposta será considerada errada, e o jogador deve prosseguir para a próxima pergunta.
+        </p>
+    </div>
 
-            <h3>Modo Tempo:</h3>
-            <ul>
-                <li>O jogador terá 1 minuto para responder a todo o quiz.</li>
-                <li>Se o tempo se esgotar, o jogador falhará e será redirecionado para a tela inicial.</li>
-            </ul>
+    <button class="accordion">Modo Tempo</button>
+    <div class="panel">
+        <p>
+            O jogador terá 1 minuto para responder a todo o quiz. Se o tempo se esgotar, o jogador falhará e será
+            redirecionado para a tela inicial.
+        </p>
+    </div>
 
-            <h3>Modo Zen:</h3>
-            <ul>
-                <li>O Modo Zen é uma opção de treinamento.</li>
-                <li>Não haverá penalização de pontos ou marcação de tempo.</li>
-                <li>Os jogadores podem usá-lo para estudos sem pressão de tempo.</li>
-            </ul>
+    <button class="accordion">Modo Zen</button>
+    <div class="panel">
+        <p>
+            O Modo Zen é uma opção de treinamento. Não haverá penalização de pontos ou marcação de tempo. Os jogadores
+            podem usá-lo para estudos sem pressão de tempo.
+        </p>
+    </div>
         </div>
     </div>
 
@@ -354,6 +361,36 @@ if (isset($_SESSION["user_id"])) {
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+    
+    var acc = document.getElementsByClassName("accordion");
+        var panels = document.getElementsByClassName("panel");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                var panel = this.nextElementSibling;
+                for (var j = 0; j < panels.length; j++) {
+                    if (panels[j] !== panel) {
+                        panels[j].style.display = "none";
+                        acc[j].classList.remove("active");
+                    }
+                }
+
+                this.classList.toggle("active");
+
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+    
+    function toggleAccordion(sectionId) {
+        var accordionContent = document.getElementById(sectionId);
+        accordionContent.style.display = accordionContent.style.display === 'block' ? 'none' : 'block';
+    }
+    
         $(document).ready(function () {
             $(".custom-checkbox").change(function () {
                 $(".custom-checkbox").not(this).prop("checked", false);
